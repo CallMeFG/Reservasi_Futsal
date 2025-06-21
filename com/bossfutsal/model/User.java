@@ -1,0 +1,58 @@
+package com.bossfutsal.model;
+
+/**
+ * Kelas Model (POJO) untuk merepresentasikan data dari tabel 'users'.
+ * Bisa digunakan untuk menyimpan data Admin maupun Pelanggan.
+ * * @author [Nama Anda & Rekan Anda]
+ * @version 1.0
+ */
+public class User {
+    private String userId;
+    private String namaLengkap;
+    private String noHp;
+    private String username;
+    private String password;
+    private String role;
+
+    public User(String userId, String namaLengkap, String noHp, String username, String password, String role) {
+        this.userId = userId;
+        this.namaLengkap = namaLengkap;
+        this.noHp = noHp;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getNamaLengkap() {
+        return namaLengkap;
+    }
+
+    public String getNoHp() {
+        return noHp;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    /**
+     * PENTING: Override toString() untuk mengembalikan nama lengkap.Ini akan sangat berguna saat kita menampilkan objek User di dalam JComboBox (dropdown),
+       karena JComboBox akan otomatis menampilkan hasil dari method ini.
+     * @return
+     */
+    @Override
+    public String toString() {
+        return this.namaLengkap; 
+    }
+}
