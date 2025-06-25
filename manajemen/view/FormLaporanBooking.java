@@ -1,9 +1,10 @@
-package com.bossfutsal.view;
+package manajemen.view;
 
-import com.bossfutsal.controller.FutsalController;
-import com.bossfutsal.model.Booking;
+import manajemen.controller.FutsalController;
+import manajemen.model.Booking;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -19,25 +20,39 @@ public class FormLaporanBooking extends javax.swing.JFrame {
         FutsalController controller = new FutsalController();
         loadLaporan(controller.getAllBookings());
     }
+
     // Method ini sekarang menerima List sebagai parameter
     private void loadLaporan(List<Booking> daftarBooking) {
         DefaultTableModel model = new DefaultTableModel();
+
+        // --- PERUBAHAN 1: TAMBAHKAN KOLOM BARU ---
         model.addColumn("ID Booking");
         model.addColumn("Tgl Main");
-        model.addColumn("Jam");
+        model.addColumn("Jam Mulai");
+        model.addColumn("Jam Selesai"); // <-- Kolom Baru
+        model.addColumn("Durasi (Jam)"); // <-- Kolom Baru
         model.addColumn("Pelanggan");
         model.addColumn("Lapangan");
         model.addColumn("Harga");
         model.addColumn("Status Bayar");
+        // -----------------------------------------
 
         for (Booking booking : daftarBooking) {
+            // --- PERUBAHAN 2: HITUNG JAM SELESAI ---
+            LocalTime jamMulai = booking.getJamMulai().toLocalTime();
+            int durasi = booking.getDurasiJam();
+            LocalTime jamSelesai = jamMulai.plusHours(durasi);
+            // ----------------------------------------
+
             model.addRow(new Object[]{
                 booking.getBookingId(),
                 booking.getTanggalMain(),
-                booking.getJamMulai(),
+                jamMulai, // Tampilkan jam mulai
+                jamSelesai, // Tampilkan jam selesai yang sudah dihitung
+                durasi, // Tampilkan durasi
                 booking.getPelanggan().getNamaLengkap(),
                 booking.getLapangan().getJenisLapangan(),
-                booking.getTotalHarga(), // <-- Gunakan perbaikan dari awal
+                booking.getTotalHarga(),
                 booking.getStatusPembayaran()
             });
         }
@@ -137,7 +152,7 @@ public class FormLaporanBooking extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblLaporan);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, 550, 390));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 630, 390));
 
         btnKembali.setText("Kembali");
         btnKembali.addActionListener(new java.awt.event.ActionListener() {

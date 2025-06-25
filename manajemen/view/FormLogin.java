@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package com.bossfutsal.view;
+package manajemen.view;
 
-import com.bossfutsal.controller.FutsalController;
-import com.bossfutsal.model.User;
+import manajemen.controller.FutsalController;
+import manajemen.model.User;
 import javax.swing.JOptionPane;
 
 /**

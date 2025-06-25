@@ -1,19 +1,19 @@
-package com.bossfutsal.controller;
+package manajemen.controller;
 
 // 1. IMPORT SEMUA YANG DIBUTUHKAN
-import com.bossfutsal.db.DatabaseConnection; // Kelas koneksi kita
-import com.bossfutsal.model.Lapangan;      // Kelas model kita
+import manajemen.db.DatabaseConnection; // Kelas koneksi kita
+import manajemen.model.Lapangan;      // Kelas model kita
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import com.bossfutsal.model.User;
+import manajemen.model.User;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
-import com.bossfutsal.model.Booking;
+import manajemen.model.Booking;
 
 /**
  * Kelas Controller yang bertindak sebagai otak aplikasi. Menjembatani antara
@@ -71,7 +71,6 @@ public class FutsalController {
             return false;
         }
     }
-
     public List<User> getAllUsers() {
         List<User> daftarUser = new ArrayList<>();
         String sql = "SELECT * FROM users";
@@ -94,7 +93,6 @@ public class FutsalController {
         }
         return daftarUser;
     }
-
     public boolean tambahUser(User user) {
         String sql = "INSERT INTO users (user_id, nama_lengkap, no_hp, username, password, role) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -110,7 +108,6 @@ public class FutsalController {
             return false;
         }
     }
-
     public boolean updateUser(User user) {
         String sql = "UPDATE users SET nama_lengkap = ?, no_hp = ?, username = ?, password = ?, role = ? WHERE user_id = ?";
         try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -132,7 +129,6 @@ public class FutsalController {
             return false;
         }
     }
-
     public boolean hapusUser(String userId) {
         String sql = "DELETE FROM users WHERE user_id = ?";
         try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -143,7 +139,6 @@ public class FutsalController {
             return false;
         }
     }
-
     public List<User> getAllPelanggan() {
         List<User> daftarPelanggan = new ArrayList<>();
         // Query SQL dengan WHERE clause untuk memfilter hanya pelanggan
@@ -170,7 +165,6 @@ public class FutsalController {
         }
         return daftarPelanggan;
     }
-
     public List<Booking> getBookingsByDateAndLapangan(String lapanganId, Date tanggal) {
         List<Booking> daftarBooking = new ArrayList<>();
 
@@ -216,7 +210,6 @@ public class FutsalController {
         }
         return daftarBooking;
     }
-
     public List<Booking> getAllBookings() {
         List<Booking> daftarBooking = new ArrayList<>();
 
@@ -256,7 +249,6 @@ public class FutsalController {
         }
         return daftarBooking;
     }
-
     public List<Booking> getBookingsByDateRange(Date tanggalMulai, Date tanggalSelesai) {
         List<Booking> daftarBooking = new ArrayList<>();
         // Query dengan WHERE ... BETWEEN ... AND ...
@@ -285,7 +277,6 @@ public class FutsalController {
         }
         return daftarBooking;
     }
-
     public boolean simpanBooking(Booking booking) {
         String sql = "INSERT INTO bookings (booking_id, user_id_pelanggan, lapangan_id, user_id_admin, "
                 + "tanggal_main, jam_mulai, durasi_jam, total_harga, metode_pembayaran, "
@@ -299,8 +290,8 @@ public class FutsalController {
             pstmt.setString(4, booking.getAdmin().getUserId()); // Kita perlu ID admin yg login nanti
             pstmt.setDate(5, booking.getTanggalMain());
             pstmt.setTime(6, booking.getJamMulai());
-            pstmt.setInt(7, 1); // Asumsi durasi selalu 1 jam untuk saat ini
-            pstmt.setDouble(8, booking.getLapangan().getHargaSewaPerJam()); // Ambil harga dari objek lapangan
+            pstmt.setInt(7, booking.getDurasiJam()); // Ambil durasi dari objek booking
+            pstmt.setDouble(8, booking.getTotalHarga()); // Ambil total harga dari objek booking
             pstmt.setString(9, "Tunai"); // Asumsi metode pembayaran
             pstmt.setString(10, "Belum Lunas"); // Asumsi status pembayaran
             pstmt.setTimestamp(11, new java.sql.Timestamp(System.currentTimeMillis())); // Waktu booking saat ini
@@ -313,7 +304,6 @@ public class FutsalController {
             return false;
         }
     }
-
     public List<Lapangan> getAllLapangan() {
         // Buat sebuah list kosong untuk menampung hasil
         List<Lapangan> daftarLapangan = new ArrayList<>();
@@ -345,7 +335,6 @@ public class FutsalController {
         // Kembalikan list yang sudah terisi (atau tetap kosong jika tidak ada data/error)
         return daftarLapangan;
     }
-
     public boolean tambahLapangan(Lapangan lapangan) {
         String sql = "INSERT INTO lapangan (lapangan_id, jenis_lapangan, ukuran, harga_sewa_per_jam) VALUES (?, ?, ?, ?)";
 
@@ -371,7 +360,6 @@ public class FutsalController {
             return false;
         }
     }
-
     public boolean hapusLapangan(String id) {
         // Query SQL untuk DELETE data berdasarkan primary key
         String sql = "DELETE FROM lapangan WHERE lapangan_id = ?";
@@ -393,7 +381,6 @@ public class FutsalController {
             return false;
         }
     }
-
     public boolean updateLapangan(Lapangan lapangan) {
         String sql = "UPDATE lapangan SET jenis_lapangan = ?, ukuran = ?, harga_sewa_per_jam = ? WHERE lapangan_id = ?";
 

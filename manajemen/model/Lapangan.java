@@ -1,4 +1,4 @@
-package com.bossfutsal.model;
+package manajemen.model;
 
 /**
  * Kelas Model (POJO - Plain Old Java Object) untuk merepresentasikan satu baris
@@ -51,15 +51,6 @@ public class Lapangan {
         return hargaSewaPerJam;
     }
 
-    // 4. METHOD toString() (Sangat Berguna untuk Debugging)
-    /**
-     * Override method toString() untuk memberikan representasi String yang
-     * informatif dari objek Lapangan.Berguna saat kita ingin mencetak objek ini
-     * ke konsol.
-     *
-     * @return
-     */
-    // Di dalam kelas Lapangan.java
     @Override
     public String toString() {
         // Mengembalikan format "ID - Jenis" (contoh: "KL001 - Sintetis")

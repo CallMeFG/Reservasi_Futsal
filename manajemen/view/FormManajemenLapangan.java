@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.bossfutsal.view;
+package manajemen.view;
 // Tambahkan import ini di bagian atas file
 
-import com.bossfutsal.controller.FutsalController;
-import com.bossfutsal.model.Lapangan;
+import manajemen.controller.FutsalController;
+import manajemen.model.Lapangan;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -92,7 +92,6 @@ public class FormManajemenLapangan extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Manajemen Lapangan - Aplikasi Boss Futsal");
         setLocationByPlatform(true);
-        setPreferredSize(new java.awt.Dimension(600, 600));
 
         pnlUtama.setMinimumSize(new java.awt.Dimension(600, 500));
         pnlUtama.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

@@ -1,8 +1,8 @@
-package com.bossfutsal.main;
+package manajemen.main;
 
-import com.bossfutsal.model.User;
-import com.bossfutsal.view.FormLogin;
-import com.bossfutsal.view.FormTransaksiBooking;
+import manajemen.model.User;
+import manajemen.view.FormLogin;
+import manajemen.view.FormTransaksiBooking;
 
 public class MainApp {
     public static void main(String[] args) {
@@ -16,8 +16,6 @@ public class MainApp {
             // Jika login sukses, tampilkan form utama
             System.out.println("Login berhasil sebagai: " + formLogin.loggedInUser.getNamaLengkap());
             FormTransaksiBooking formUtama = new FormTransaksiBooking();
-            // Kita bisa teruskan info user yang login ke form utama jika perlu
-            // formUtama.setLoggedInUser(formLogin.loggedInUser); 
             formUtama.setVisible(true);
         } else {
             // Jika login gagal (user menutup dialog), aplikasi selesai.

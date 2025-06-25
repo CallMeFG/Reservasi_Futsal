@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.bossfutsal.view;
+package manajemen.view;
 
-import com.bossfutsal.controller.FutsalController;
-import com.bossfutsal.model.Booking;
-import com.bossfutsal.model.Lapangan;
-import com.bossfutsal.model.User;
+import manajemen.controller.FutsalController;
+import manajemen.model.Booking;
+import manajemen.model.Lapangan;
+import manajemen.model.User;
 import java.util.List;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -75,17 +75,18 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
             String status = "Tersedia";
             String pemesan = "-";
 
-            // Cek apakah slot waktu ini ada di dalam list booking dari database
+            // --- PERUBAHAN LOGIKA DI SINI ---
+            // Cek apakah slot waktu ini berada dalam rentang booking yang ada
             for (Booking booking : bookings) {
-                // Ambil komponen jam dari data Time (misal: 10 dari "10:00:00")
-                int jamBooking = booking.getJamMulai().toLocalTime().getHour();
+                int jamBookingMulai = booking.getJamMulai().toLocalTime().getHour();
+                int durasiBooking = booking.getDurasiJam();
+                int jamBookingSelesai = jamBookingMulai + durasiBooking;
 
-                if (jam == jamBooking) {
+                // Jika jam saat ini berada di antara jam mulai dan jam selesai booking
+                if (jam >= jamBookingMulai && jam < jamBookingSelesai) {
                     status = "DIBOOKING";
-                    // CATATAN: Saat ini akan menampilkan "Dummy" karena controller kita belum di-JOIN.
-                    // Ini akan kita perbaiki di langkah selanjutnya. Yang penting statusnya berubah.
                     pemesan = booking.getPelanggan().getNamaLengkap();
-                    break; // Keluar dari loop dalam karena sudah ketemu
+                    break;
                 }
             }
             // Tambahkan baris data (slot waktu, status, pemesan) ke model
@@ -97,28 +98,63 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
     }
     // Method ini akan dieksekusi setiap kali user mengklik baris di tabel jadwal
 
-    private void tblJadwalValueChanged(javax.swing.event.ListSelectionEvent evt) {
-        int selectedRow = tblJadwal.getSelectedRow();
+    private void tblJadwalValueChanged(javax.swing.event.ListSelectionEvent evt) {                                       
+    // Dapatkan SEMUA baris yang dipilih, hasilnya adalah sebuah array of integer
+    int[] selectedRows = tblJadwal.getSelectedRows();
 
-        if (selectedRow != -1 && !evt.getValueIsAdjusting()) {
-            String status = tblJadwal.getValueAt(selectedRow, 1).toString();
-
-            if (status.equals("Tersedia")) {
-                String jam = tblJadwal.getValueAt(selectedRow, 0).toString();
-                Lapangan lapanganTerpilih = (Lapangan) cmbLapangan.getSelectedItem();
-
-                // Cek null untuk menghindari error jika belum ada lapangan dipilih
-                if (lapanganTerpilih != null) {
-                    txtJamPilihan.setText(jam);
-                    txtHargaPilihan.setText(String.valueOf(lapanganTerpilih.getHargaSewaPerJam()));
-                }
-            } else {
-                txtJamPilihan.setText("");
-                txtHargaPilihan.setText("");
+    // Pastikan event ini sudah final dan ada baris yang dipilih
+    if (!evt.getValueIsAdjusting() && selectedRows.length > 0) {
+        
+        // --- Validasi Pilihan ---
+        boolean pilihanValid = true;
+        // Cek apakah semua baris yang dipilih statusnya "Tersedia"
+        for (int row : selectedRows) {
+            if (!tblJadwal.getValueAt(row, 1).toString().equals("Tersedia")) {
+                pilihanValid = false;
+                break;
             }
         }
-    }
 
+        // Cek apakah semua baris yang dipilih berurutan (tidak ada jeda)
+        if (pilihanValid && selectedRows.length > 1) {
+            // Urutkan indeks baris untuk memastikan (meskipun biasanya sudah urut)
+            java.util.Arrays.sort(selectedRows);
+            for (int i = 0; i < selectedRows.length - 1; i++) {
+                if (selectedRows[i+1] != selectedRows[i] + 1) {
+                    pilihanValid = false; // Ditemukan jeda!
+                    break;
+                }
+            }
+        }
+        
+        // --- Proses Jika Pilihan Valid ---
+        if (pilihanValid) {
+            // Ambil jam mulai dari baris pertama dan jam selesai dari baris terakhir
+            String jamMulai = tblJadwal.getValueAt(selectedRows[0], 0).toString().substring(0, 5);
+            String jamSelesai = tblJadwal.getValueAt(selectedRows[selectedRows.length - 1], 0).toString().substring(8, 13);
+            
+            // Hitung durasi
+            int durasi = selectedRows.length;
+            
+            // Hitung total harga
+            Lapangan lapanganTerpilih = (Lapangan) cmbLapangan.getSelectedItem();
+            double totalHarga = lapanganTerpilih.getHargaSewaPerJam() * durasi;
+
+            // Tampilkan di field detail
+            txtJamPilihan.setText(jamMulai + " - " + jamSelesai);
+            // Ganti txtDurasiPilihan menjadi txtDurasi (jika Anda menambahkannya)
+            // txtDurasi.setText(String.valueOf(durasi));
+            txtHargaPilihan.setText(String.valueOf(totalHarga));
+
+        } else {
+            // Jika pilihan tidak valid (ada yg sudah di-booking atau tidak berurutan), kosongkan field
+            JOptionPane.showMessageDialog(this, "Pilihan tidak valid! Pastikan semua jam yang dipilih 'Tersedia' dan berurutan.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            tblJadwal.clearSelection(); // Batalkan pilihan
+            txtJamPilihan.setText("");
+            txtHargaPilihan.setText("");
+        }
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -157,7 +193,6 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Transaksi Booking - Manajemen Futsal");
         setLocationByPlatform(true);
-        setPreferredSize(new java.awt.Dimension(700, 700));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 650));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -201,6 +236,7 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblJadwal.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jScrollPane1.setViewportView(tblJadwal);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, -1, 250));
@@ -316,67 +352,73 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCekJadwalActionPerformed
 
     private void btnSimpanBookingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanBookingActionPerformed
-        // 1. Validasi: Pastikan sebuah jam sudah dipilih (field tidak kosong)
-        if (txtJamPilihan.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Silakan pilih slot waktu yang tersedia dari tabel.", "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
+        // 1. Validasi: Pastikan sebuah jam sudah dipilih di tabel
+    if (txtJamPilihan.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Silakan pilih slot waktu yang tersedia dari tabel.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // 2. Kumpulkan semua informasi yang diperlukan dari form
+    User pelangganTerpilih = (User) cmbPelanggan.getSelectedItem();
+    Lapangan lapanganTerpilih = (Lapangan) cmbLapangan.getSelectedItem();
+    String tanggalStr = txtTanggal.getText();
+    // Ambil jam mulai dari text field, misal "11:00" dari "11:00 - 14:00"
+    String jamMulaiStr = txtJamPilihan.getText().substring(0, 5); 
+
+    // --- PERUBAHAN UTAMA DIBANDING KODE LAMA ---
+    // Dapatkan durasi dari jumlah baris yang dipilih di tabel
+    int durasi = tblJadwal.getSelectedRows().length;
+    // Ambil total harga langsung dari text field (hasil kalkulasi listener tabel)
+    double totalHarga = Double.parseDouble(txtHargaPilihan.getText());
+    // -----------------------------------------
+
+    try {
+        // 3. Konversi tipe data tanggal dan jam (logika ini tidak berubah)
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date utilDate = sdf.parse(tanggalStr);
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+        SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
+        long ms = sdfTime.parse(jamMulaiStr).getTime();
+        java.sql.Time sqlTime = new java.sql.Time(ms);
+
+        // 4. Buat objek-objek yang diperlukan (logika ini tidak berubah)
+        User adminLogin = new User("ADM01", "Admin Utama", null, null, null, "admin");
+        String bookingId = "BK" + System.currentTimeMillis();
+
+        // 5. Buat objek Booking baru dengan DURASI dan HARGA yang sudah dinamis
+        Booking bookingBaru = new Booking(
+                bookingId,
+                pelangganTerpilih,
+                lapanganTerpilih,
+                adminLogin,
+                sqlDate,
+                sqlTime,
+                durasi,       // <-- MENGGUNAKAN DURASI BARU
+                totalHarga,   // <-- MENGGUNAKAN HARGA TOTAL BARU
+                "Tunai",      // Asumsi metode
+                "Belum Lunas",// Asumsi status
+                new java.sql.Timestamp(System.currentTimeMillis()) // tgl booking
+        );
+
+        // 6. Panggil controller untuk menyimpan (logika ini tidak berubah)
+        FutsalController controller = new FutsalController();
+        boolean sukses = controller.simpanBooking(bookingBaru);
+
+        // 7. Beri feedback dan refresh jadwal (logika ini tidak berubah)
+        if (sukses) {
+            JOptionPane.showMessageDialog(this, "Booking berhasil disimpan!");
+            // Refresh tabel jadwal untuk menampilkan status DIBOOKING yang baru
+            btnCekJadwal.doClick(); 
+            txtJamPilihan.setText("");
+            txtHargaPilihan.setText("");
+        } else {
+            JOptionPane.showMessageDialog(this, "Gagal menyimpan booking.", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        // 2. Kumpulkan semua informasi yang diperlukan
-        User pelangganTerpilih = (User) cmbPelanggan.getSelectedItem();
-        Lapangan lapanganTerpilih = (Lapangan) cmbLapangan.getSelectedItem();
-        String tanggalStr = txtTanggal.getText();
-        String jamStr = txtJamPilihan.getText().substring(0, 5); // Ambil jam mulai, misal "13:00" dari "13:00 - 14:00"
-
-        try {
-            // 3. Konversi tipe data
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            java.util.Date utilDate = sdf.parse(tanggalStr);
-            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-
-            SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
-            long ms = sdfTime.parse(jamStr).getTime();
-            java.sql.Time sqlTime = new java.sql.Time(ms);
-
-            // 4. Buat objek-objek yang diperlukan
-            // Untuk sementara, kita hardcode admin yang login
-            User adminLogin = new User("ADM01", "Admin Utama", null, null, null, "admin");
-            // Generate ID Booking sederhana
-            String bookingId = "BK" + System.currentTimeMillis();
-
-            // 5. Buat objek Booking baru yang akan disimpan
-            Booking bookingBaru = new Booking(
-                    bookingId,
-                    pelangganTerpilih,
-                    lapanganTerpilih,
-                    adminLogin,
-                    sqlDate,
-                    sqlTime,
-                    1, // durasi
-                    lapanganTerpilih.getHargaSewaPerJam(), // total harga
-                    "Tunai", // metode
-                    "Belum Lunas", // status
-                    new java.sql.Timestamp(System.currentTimeMillis()) // tgl booking
-            );
-
-            // 6. Panggil controller untuk menyimpan
-            FutsalController controller = new FutsalController();
-            boolean sukses = controller.simpanBooking(bookingBaru);
-
-            // 7. Beri feedback, lalu refresh jadwal
-            if (sukses) {
-                JOptionPane.showMessageDialog(this, "Booking berhasil disimpan!");
-                // Refresh tabel jadwal untuk menampilkan status DIBOOKING yang baru
-                btnCekJadwal.doClick(); // Cara cepat untuk "mengklik" tombol Cek Jadwal lagi
-                txtJamPilihan.setText("");
-                txtHargaPilihan.setText("");
-            } else {
-                JOptionPane.showMessageDialog(this, "Gagal menyimpan booking.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "Terjadi kesalahan format tanggal atau jam.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    } catch (ParseException e) {
+        JOptionPane.showMessageDialog(this, "Terjadi kesalahan format tanggal atau jam.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnSimpanBookingActionPerformed
 
     private void menuItemKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemKeluarActionPerformed

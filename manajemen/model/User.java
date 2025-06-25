@@ -1,4 +1,4 @@
-package com.bossfutsal.model;
+package manajemen.model;
 
 /**
  * Kelas Model (POJO) untuk merepresentasikan data dari tabel 'users'.
@@ -46,11 +46,6 @@ public class User {
         return role;
     }
 
-    /**
-     * PENTING: Override toString() untuk mengembalikan nama lengkap.Ini akan sangat berguna saat kita menampilkan objek User di dalam JComboBox (dropdown),
-       karena JComboBox akan otomatis menampilkan hasil dari method ini.
-     * @return
-     */
     @Override
     public String toString() {
         return this.namaLengkap; 

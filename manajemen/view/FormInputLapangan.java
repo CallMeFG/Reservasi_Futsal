@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package com.bossfutsal.view;
+package manajemen.view;
 // Jangan lupa tambahkan import ini di bagian atas file
 
 import javax.swing.JOptionPane;
-import com.bossfutsal.controller.FutsalController; // Mungkin sudah ada
-import com.bossfutsal.model.Lapangan; // Mungkin sudah ada
+import manajemen.controller.FutsalController; // Mungkin sudah ada
+import manajemen.model.Lapangan; // Mungkin sudah ada
 
 /**
  *
@@ -83,7 +83,6 @@ public class FormInputLapangan extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tambah Data Lapangan");
-        setPreferredSize(new java.awt.Dimension(600, 400));
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

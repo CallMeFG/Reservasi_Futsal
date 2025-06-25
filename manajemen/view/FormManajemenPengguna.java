@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.bossfutsal.view;
+package manajemen.view;
 
-import com.bossfutsal.controller.FutsalController;
-import com.bossfutsal.model.User;
+import manajemen.controller.FutsalController;
+import manajemen.model.User;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -75,7 +75,6 @@ public class FormManajemenPengguna extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Manajemen Pengguna (Admin & Pelanggan)");
-        setPreferredSize(new java.awt.Dimension(600, 600));
         setResizable(false);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(600, 600));

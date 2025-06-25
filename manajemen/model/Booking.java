@@ -1,4 +1,4 @@
-package com.bossfutsal.model;
+package manajemen.model;
 
 import java.sql.Time;
 import java.sql.Date;
@@ -37,15 +37,35 @@ public class Booking {
     }
 
     public String getBookingId() { return bookingId; }
-    public User getPelanggan() { return pelanggan; }
-    public Lapangan getLapangan() { return lapangan; }
-    public User getAdmin() { return admin; }
-    public java.sql.Date getTanggalMain() { return tanggalMain; }
-    public java.sql.Time getJamMulai() { return jamMulai; }
-    public int getDurasiJam() { return durasiJam; }
-    public double getTotalHarga() { return totalHarga; }
-    public String getMetodePembayaran() { return metodePembayaran; }
+    public User getPelanggan() { 
+        return pelanggan; 
+    }
+    public Lapangan getLapangan() { 
+        return lapangan; 
+    }
+    public User getAdmin() { 
+        return admin; 
+    }
+    public Date getTanggalMain() { 
+        return tanggalMain; 
+    }
+    public Time getJamMulai() { 
+        return jamMulai; 
+    }
+    public int getDurasiJam() { 
+        return durasiJam; 
+    }
+    public double getTotalHarga() { 
+        return totalHarga; 
+    }
+    public String getMetodePembayaran() { 
+        return metodePembayaran; 
+    }
 
-    public String getStatusPembayaran() { return statusPembayaran; } 
-    public java.sql.Timestamp getTanggalBooking() { return tanggalBooking; }
+    public String getStatusPembayaran() { 
+        return statusPembayaran; 
+    } 
+    public java.sql.Timestamp getTanggalBooking() { 
+        return tanggalBooking; 
+    }
 }
