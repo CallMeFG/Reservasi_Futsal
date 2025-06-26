@@ -5,7 +5,8 @@
 package manajemen.view;
 // Jangan lupa tambahkan import ini di bagian atas file
 
-import javax.swing.JOptionPane;
+import java.awt.*;
+import javax.swing.*;
 import manajemen.controller.FutsalController; // Mungkin sudah ada
 import manajemen.model.Lapangan; // Mungkin sudah ada
 
@@ -23,26 +24,57 @@ public class FormInputLapangan extends javax.swing.JDialog {
     public FormInputLapangan(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
+        initializePlaceholders(); // Panggil method untuk set placeholder
     }
 
     // Constructor KEDUA untuk mode EDIT
     public FormInputLapangan(java.awt.Frame parent, boolean modal, Lapangan lapangan) {
         super(parent, modal);
         initComponents();
-
+        this.setLocationRelativeTo(null);
         // Simpan objek lapangan yang akan di-edit
         this.lapanganToEdit = lapangan;
 
         // Panggil method untuk mengisi form dengan data dari objek
         populateForm();
     }
+    // --- HELPER METHODS UNTUK PLACEHOLDER ---
+    // (Kode ini sama persis seperti di form sebelumnya)
+    private void addPlaceholder(JTextField field, String placeholder) {
+        if (field.getText().isEmpty()) {
+            field.setText(placeholder);
+            field.setForeground(Color.GRAY);
+        }
+    }
 
+    private void removePlaceholder(JTextField field, String placeholder) {
+        if (field.getText().equals(placeholder)) {
+            field.setText("");
+            field.setForeground(Color.BLACK);
+        }
+    }
+    // --- AKHIR HELPER METHODS ---
+    
+    // Method baru untuk inisialisasi semua placeholder
+    private void initializePlaceholders() {
+        addPlaceholder(txtIdLapangan, "Contoh: L01");
+        addPlaceholder(txtJenis, "Contoh: Rumput Sintetis");
+        addPlaceholder(txtUkuran, "Contoh: 25m x 15m");
+        addPlaceholder(txtHarga, "Contoh: 150000");
+    }
     // Method untuk mengisi field di form dengan data
     private void populateForm() {
         txtIdLapangan.setText(lapanganToEdit.getLapanganId());
         txtJenis.setText(lapanganToEdit.getJenisLapangan());
         txtUkuran.setText(lapanganToEdit.getUkuran());
         txtHarga.setText(String.valueOf(lapanganToEdit.getHargaSewaPerJam())); // Konversi double ke String
+        
+        // Pastikan teks yang diisi berwarna hitam
+        txtIdLapangan.setForeground(Color.BLACK);
+        txtJenis.setForeground(Color.BLACK);
+        txtUkuran.setForeground(Color.BLACK);
+        txtHarga.setForeground(Color.BLACK);
 
         // PENTING: Buat ID tidak bisa diedit untuk mencegah mengubah Primary Key
         txtIdLapangan.setEditable(false);
@@ -59,16 +91,18 @@ public class FormInputLapangan extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        txtIdLapangan = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        txtJenis = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtIdLapangan = new javax.swing.JTextField();
-        txtJenis = new javax.swing.JTextField();
         txtUkuran = new javax.swing.JTextField();
         txtHarga = new javax.swing.JTextField();
         btnSimpan = new javax.swing.JButton();
         btnBatal = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -86,53 +120,113 @@ public class FormInputLapangan extends javax.swing.JDialog {
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("ID Lapangan");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, -1, -1));
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, -1, -1));
 
-        jLabel2.setText("Jenis Lapangan");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, -1, -1));
-
-        jLabel3.setText("Ukuran");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, -1, -1));
-
-        jLabel4.setText("Harga Sewa / Jam");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, -1, -1));
-
+        txtIdLapangan.setBackground(new java.awt.Color(240, 240, 240));
+        txtIdLapangan.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+        txtIdLapangan.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtIdLapanganFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtIdLapanganFocusLost(evt);
+            }
+        });
         txtIdLapangan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtIdLapanganActionPerformed(evt);
             }
         });
-        jPanel2.add(txtIdLapangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 150, -1));
-        jPanel2.add(txtJenis, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, 150, -1));
-        jPanel2.add(txtUkuran, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 180, 150, -1));
-        jPanel2.add(txtHarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 240, 150, -1));
+        jPanel3.add(txtIdLapangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, 170, -1));
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel2.setText("Jenis Lapangan");
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, -1, -1));
+
+        txtJenis.setBackground(new java.awt.Color(240, 240, 240));
+        txtJenis.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+        txtJenis.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtJenisFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtJenisFocusLost(evt);
+            }
+        });
+        jPanel3.add(txtJenis, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 170, -1));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setText("Ukuran");
+        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setText("Harga Sewa / Jam");
+        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, -1, -1));
+
+        txtUkuran.setBackground(new java.awt.Color(240, 240, 240));
+        txtUkuran.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+        txtUkuran.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtUkuranFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtUkuranFocusLost(evt);
+            }
+        });
+        jPanel3.add(txtUkuran, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 170, 170, -1));
+
+        txtHarga.setBackground(new java.awt.Color(240, 240, 240));
+        txtHarga.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+        txtHarga.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtHargaFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtHargaFocusLost(evt);
+            }
+        });
+        jPanel3.add(txtHarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 210, 170, -1));
+
+        btnSimpan.setBackground(new java.awt.Color(153, 227, 62));
+        btnSimpan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnSimpan.setText("Simpan");
         btnSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSimpanActionPerformed(evt);
             }
         });
-        jPanel2.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, -1, -1));
+        jPanel3.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 280, 110, 40));
 
+        btnBatal.setBackground(new java.awt.Color(255, 62, 65));
+        btnBatal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnBatal.setText("Batal");
         btnBatal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBatalActionPerformed(evt);
             }
         });
-        jPanel2.add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 320, -1, -1));
+        jPanel3.add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 280, 110, 40));
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel7.setText("INPUT DATA LAPANGAN");
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, -1, -1));
+
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 400));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -148,14 +242,17 @@ public class FormInputLapangan extends javax.swing.JDialog {
     }//GEN-LAST:event_btnBatalActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-        // Ambil data dari form (sama seperti sebelumnya)
         String id = txtIdLapangan.getText();
         String jenis = txtJenis.getText();
         String ukuran = txtUkuran.getText();
         String hargaStr = txtHarga.getText();
 
-        if (jenis.isEmpty() || ukuran.isEmpty() || hargaStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Semua kolom harus diisi!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+        // Cek apakah field masih berisi placeholder sebelum validasi
+        if (id.equals("Contoh: L01") || jenis.equals("Contoh: Rumput Sintetis") || 
+            ukuran.equals("Contoh: 25m x 15m") || hargaStr.equals("Contoh: 150000") ||
+            id.isEmpty() || jenis.isEmpty() || ukuran.isEmpty() || hargaStr.isEmpty()) {
+            
+            JOptionPane.showMessageDialog(this, "Semua kolom harus diisi dengan benar!", "Peringatan", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -164,26 +261,61 @@ public class FormInputLapangan extends javax.swing.JDialog {
             FutsalController controller = new FutsalController();
             boolean sukses;
 
-            // Logika PINTAR: Cek apakah ini mode EDIT atau mode TAMBAH
-            if (lapanganToEdit == null) { // Jika null, berarti ini mode TAMBAH
+            if (lapanganToEdit == null) {
                 Lapangan lapBaru = new Lapangan(id, jenis, ukuran, harga);
                 sukses = controller.tambahLapangan(lapBaru);
-            } else { // Jika tidak null, berarti ini mode EDIT
+            } else {
                 Lapangan lapUpdate = new Lapangan(id, jenis, ukuran, harga);
                 sukses = controller.updateLapangan(lapUpdate);
             }
 
             if (sukses) {
-                JOptionPane.showMessageDialog(this, "Data berhasil diperbarui!");
+                // Pesan disesuaikan tergantung mode
+                String message = (lapanganToEdit == null) ? "Data berhasil ditambahkan!" : "Data berhasil diperbarui!";
+                JOptionPane.showMessageDialog(this, message);
                 this.dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Gagal memperbarui data.", "Error", JOptionPane.ERROR_MESSAGE);
+                String message = (lapanganToEdit == null) ? "Gagal menambahkan data." : "Gagal memperbarui data.";
+                JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Harga harus berupa angka yang valid!", "Error Input", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnSimpanActionPerformed
+
+    private void txtIdLapanganFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdLapanganFocusGained
+        removePlaceholder(txtIdLapangan, "Contoh: L01");
+    }//GEN-LAST:event_txtIdLapanganFocusGained
+
+    private void txtIdLapanganFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdLapanganFocusLost
+        addPlaceholder(txtIdLapangan, "Contoh: L01");
+    }//GEN-LAST:event_txtIdLapanganFocusLost
+
+    private void txtJenisFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtJenisFocusGained
+        removePlaceholder(txtJenis, "Contoh: Rumput Sintetis");
+
+    }//GEN-LAST:event_txtJenisFocusGained
+
+    private void txtJenisFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtJenisFocusLost
+        addPlaceholder(txtJenis, "Contoh: Rumput Sintetis");
+    }//GEN-LAST:event_txtJenisFocusLost
+
+    private void txtUkuranFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUkuranFocusGained
+        removePlaceholder(txtUkuran, "Contoh: 25m x 15m");
+    }//GEN-LAST:event_txtUkuranFocusGained
+
+    private void txtUkuranFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUkuranFocusLost
+        addPlaceholder(txtUkuran, "Contoh: 25m x 15m");
+    }//GEN-LAST:event_txtUkuranFocusLost
+
+    private void txtHargaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaFocusGained
+        removePlaceholder(txtHarga, "Contoh: 150000");
+    }//GEN-LAST:event_txtHargaFocusGained
+
+    private void txtHargaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaFocusLost
+        addPlaceholder(txtHarga, "Contoh: 150000");
+    }//GEN-LAST:event_txtHargaFocusLost
 
     /**
      * @param args the command line arguments
@@ -235,8 +367,10 @@ public class FormInputLapangan extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField txtHarga;
     private javax.swing.JTextField txtIdLapangan;
     private javax.swing.JTextField txtJenis;
