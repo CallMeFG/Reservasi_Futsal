@@ -16,40 +16,32 @@ public class FormLaporanBooking extends javax.swing.JFrame {
      */
     public FormLaporanBooking() {
         initComponents();
-        // Saat pertama kali dibuka, panggil controller untuk mendapatkan SEMUA booking
         FutsalController controller = new FutsalController();
         loadLaporan(controller.getAllBookings());
     }
 
-    // Method ini sekarang menerima List sebagai parameter
     private void loadLaporan(List<Booking> daftarBooking) {
         DefaultTableModel model = new DefaultTableModel();
 
-        // --- PERUBAHAN 1: TAMBAHKAN KOLOM BARU ---
         model.addColumn("ID Booking");
         model.addColumn("Tgl Main");
         model.addColumn("Jam Mulai");
-        model.addColumn("Jam Selesai"); // <-- Kolom Baru
-        model.addColumn("Durasi (Jam)"); // <-- Kolom Baru
+        model.addColumn("Jam Selesai"); 
+        model.addColumn("Durasi (Jam)"); 
         model.addColumn("Pelanggan");
         model.addColumn("Lapangan");
         model.addColumn("Harga");
         model.addColumn("Status Bayar");
-        // -----------------------------------------
-
         for (Booking booking : daftarBooking) {
-            // --- PERUBAHAN 2: HITUNG JAM SELESAI ---
             LocalTime jamMulai = booking.getJamMulai().toLocalTime();
             int durasi = booking.getDurasiJam();
             LocalTime jamSelesai = jamMulai.plusHours(durasi);
-            // ----------------------------------------
-
             model.addRow(new Object[]{
                 booking.getBookingId(),
                 booking.getTanggalMain(),
-                jamMulai, // Tampilkan jam mulai
-                jamSelesai, // Tampilkan jam selesai yang sudah dihitung
-                durasi, // Tampilkan durasi
+                jamMulai, 
+                jamSelesai, 
+                durasi, 
                 booking.getPelanggan().getNamaLengkap(),
                 booking.getLapangan().getJenisLapangan(),
                 booking.getTotalHarga(),
@@ -59,10 +51,6 @@ public class FormLaporanBooking extends javax.swing.JFrame {
         tblLaporan.setModel(model);
     }
 
-    /**
-     * Method ini adalah satu-satunya sumber kebenaran untuk me-refresh data
-     * tabel. Ia akan mengecek apakah filter tanggal diisi atau tidak.
-     */
     private void refreshLaporan() {
         String tglMulaiStr = txtTanggalMulai.getText();
         String tglSelesaiStr = txtTanggalSelesai.getText();
@@ -70,29 +58,23 @@ public class FormLaporanBooking extends javax.swing.JFrame {
         FutsalController controller = new FutsalController();
         List<Booking> daftarBooking;
 
-        // Cek jika kedua field tanggal terisi
         if (!tglMulaiStr.isEmpty() && !tglSelesaiStr.isEmpty()) {
             try {
-                // Jika terisi, gunakan method controller dengan filter tanggal
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 java.sql.Date tglMulai = new java.sql.Date(sdf.parse(tglMulaiStr).getTime());
                 java.sql.Date tglSelesai = new java.sql.Date(sdf.parse(tglSelesaiStr).getTime());
                 daftarBooking = controller.getBookingsByDateRange(tglMulai, tglSelesai);
             } catch (ParseException e) {
                 JOptionPane.showMessageDialog(this, "Format tanggal salah. Gunakan format YYYY-MM-DD.", "Error", JOptionPane.ERROR_MESSAGE);
-                return; // Hentikan jika format salah
+                return; 
             }
         } else {
-            // Jika kosong, gunakan method controller untuk mengambil SEMUA data
             daftarBooking = controller.getAllBookings();
         }
-
-        // Panggil method loadLaporan dengan data yang sesuai
         loadLaporan(daftarBooking);
     }
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {
-        // Saat jendela dibuka, langsung panggil method refresh utama
         refreshLaporan();
     }
 
@@ -188,49 +170,40 @@ public class FormLaporanBooking extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTampilkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTampilkanActionPerformed
-        // Tombol ini sekarang hanya bertugas memanggil method refresh utama
         refreshLaporan();
     }//GEN-LAST:event_btnTampilkanActionPerformed
 
     private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
-        this.dispose(); // Cukup tutup jendela laporan ini
+        this.dispose(); 
     }//GEN-LAST:event_btnKembaliActionPerformed
 
     private void btnTandaiLunasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTandaiLunasActionPerformed
-        // 1. Dapatkan baris yang dipilih dari tabel
         int selectedRow = tblLaporan.getSelectedRow();
 
-        // 2. Pastikan ada baris yang dipilih
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Silakan pilih data booking yang akan diubah statusnya.", "Peringatan", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // 3. Ambil ID Booking dan status saat ini dari tabel
         String bookingId = tblLaporan.getValueAt(selectedRow, 0).toString();
         String statusSaatIni = tblLaporan.getValueAt(selectedRow, 6).toString();
 
-        // 4. Jika statusnya sudah "Lunas", beri pemberitahuan dan hentikan proses
         if (statusSaatIni.equals("Lunas")) {
             JOptionPane.showMessageDialog(this, "Status booking ini sudah lunas.", "Informasi", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
-        // 5. Minta konfirmasi kepada pengguna
         int confirm = JOptionPane.showConfirmDialog(this,
                 "Ubah status booking " + bookingId + " menjadi 'Lunas'?",
                 "Konfirmasi Pembayaran",
                 JOptionPane.YES_NO_OPTION);
 
-        // 6. Jika pengguna setuju, panggil controller
         if (confirm == JOptionPane.YES_OPTION) {
             FutsalController controller = new FutsalController();
             boolean sukses = controller.updateStatusPembayaran(bookingId, "Lunas");
 
             if (sukses) {
                 JOptionPane.showMessageDialog(this, "Status pembayaran berhasil diperbarui.");
-                // Muat ulang data di tabel untuk menampilkan status baru
-                // Cara termudah adalah dengan mensimulasikan klik pada tombol "Tampilkan"
                 refreshLaporan();
             } else {
                 JOptionPane.showMessageDialog(this, "Gagal memperbarui status pembayaran.", "Error", JOptionPane.ERROR_MESSAGE);

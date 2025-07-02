@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package manajemen.view;
 
 import manajemen.controller.FutsalController;
@@ -23,28 +19,21 @@ public class FormManajemenPengguna extends javax.swing.JFrame {
         initComponents();
         loadTabelPengguna();
     }
-    // Jangan lupa tambahkan import yang dibutuhkan (List, DefaultTableModel, User, FutsalController)
-
     private void loadTabelPengguna() {
-        // 1. Ambil model yang SUDAH ADA dari JTable yang dibuat oleh NetBeans Designer
         DefaultTableModel model = (DefaultTableModel) tblPengguna.getModel();
 
-        // 2. Bersihkan semua baris yang mungkin ada sebelumnya
         model.setRowCount(0);
-
-        // 3. Bersihkan semua kolom default ("Title 1", dll) dan siapkan kolom baru
         model.setColumnCount(0);
+        
         model.addColumn("User ID");
         model.addColumn("Nama Lengkap");
         model.addColumn("No. HP");
         model.addColumn("Username");
         model.addColumn("Role");
 
-        // 4. Panggil controller untuk mengambil data (logika ini tetap sama)
         FutsalController controller = new FutsalController();
         List<User> daftarUser = controller.getAllUsers();
 
-        // 5. Isi model dengan data baru (logika ini tetap sama)
         for (User user : daftarUser) {
             model.addRow(new Object[]{
                 user.getUserId(),
@@ -148,27 +137,26 @@ public class FormManajemenPengguna extends javax.swing.JFrame {
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         FormInputPengguna form = new FormInputPengguna(this, true);
         form.setVisible(true);
-        loadTabelPengguna(); // Refresh tabel setelah form ditutup
+        loadTabelPengguna(); 
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         int row = tblPengguna.getSelectedRow();
         if (row == -1) {
-            return; // Pastikan ada baris dipilih
+            return;
         }
-        // Ambil data dari baris terpilih
         String id = tblPengguna.getValueAt(row, 0).toString();
         String nama = tblPengguna.getValueAt(row, 1).toString();
         String noHp = tblPengguna.getValueAt(row, 2) != null ? tblPengguna.getValueAt(row, 2).toString() : "";
         String username = tblPengguna.getValueAt(row, 3) != null ? tblPengguna.getValueAt(row, 3).toString() : "";
         String role = tblPengguna.getValueAt(row, 4).toString();
 
-        // Buat objek User untuk dikirim ke form edit
+        // Buat objek User 
         User userToEdit = new User(id, nama, noHp, username, "", role); // Password dikosongkan
 
         FormInputPengguna form = new FormInputPengguna(this, true, userToEdit);
         form.setVisible(true);
-        loadTabelPengguna(); // Refresh tabel
+        loadTabelPengguna(); 
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed

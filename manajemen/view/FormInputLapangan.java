@@ -125,7 +125,7 @@ public class FormInputLapangan extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("ID Lapangan");
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, -1, -1));
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, -1, -1));
 
         txtIdLapangan.setBackground(new java.awt.Color(240, 240, 240));
         txtIdLapangan.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10)));
@@ -142,11 +142,11 @@ public class FormInputLapangan extends javax.swing.JDialog {
                 txtIdLapanganActionPerformed(evt);
             }
         });
-        jPanel3.add(txtIdLapangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, 170, -1));
+        jPanel3.add(txtIdLapangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 170, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Jenis Lapangan");
-        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, -1, -1));
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, -1, -1));
 
         txtJenis.setBackground(new java.awt.Color(240, 240, 240));
         txtJenis.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10)));
@@ -158,15 +158,15 @@ public class FormInputLapangan extends javax.swing.JDialog {
                 txtJenisFocusLost(evt);
             }
         });
-        jPanel3.add(txtJenis, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 170, -1));
+        jPanel3.add(txtJenis, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 170, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("Ukuran");
-        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, -1, -1));
+        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("Harga Sewa / Jam");
-        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, -1, -1));
+        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, -1, -1));
 
         txtUkuran.setBackground(new java.awt.Color(240, 240, 240));
         txtUkuran.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10)));
@@ -178,7 +178,7 @@ public class FormInputLapangan extends javax.swing.JDialog {
                 txtUkuranFocusLost(evt);
             }
         });
-        jPanel3.add(txtUkuran, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 170, 170, -1));
+        jPanel3.add(txtUkuran, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 210, 170, -1));
 
         txtHarga.setBackground(new java.awt.Color(240, 240, 240));
         txtHarga.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10)));
@@ -190,7 +190,7 @@ public class FormInputLapangan extends javax.swing.JDialog {
                 txtHargaFocusLost(evt);
             }
         });
-        jPanel3.add(txtHarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 210, 170, -1));
+        jPanel3.add(txtHarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 250, 170, -1));
 
         btnSimpan.setBackground(new java.awt.Color(153, 227, 62));
         btnSimpan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -200,7 +200,7 @@ public class FormInputLapangan extends javax.swing.JDialog {
                 btnSimpanActionPerformed(evt);
             }
         });
-        jPanel3.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 280, 110, 40));
+        jPanel3.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 320, 110, 40));
 
         btnBatal.setBackground(new java.awt.Color(255, 62, 65));
         btnBatal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -210,19 +210,19 @@ public class FormInputLapangan extends javax.swing.JDialog {
                 btnBatalActionPerformed(evt);
             }
         });
-        jPanel3.add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 280, 110, 40));
+        jPanel3.add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 320, 110, 40));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel7.setText("INPUT DATA LAPANGAN");
-        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, -1, -1));
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, -1, -1));
 
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 400));
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 460, 430));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

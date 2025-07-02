@@ -14,12 +14,8 @@ import javax.swing.JOptionPane;
  */
 public class FormLogin extends javax.swing.JDialog {
 
-    // Tambahkan ini sebagai atribut di atas constructor FormLogin
     public User loggedInUser;
 
-    /**
-     * Creates new form FormLogin
-     */
     public FormLogin(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();

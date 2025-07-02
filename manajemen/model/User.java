@@ -1,11 +1,5 @@
 package manajemen.model;
 
-/**
- * Kelas Model (POJO) untuk merepresentasikan data dari tabel 'users'.
- * Bisa digunakan untuk menyimpan data Admin maupun Pelanggan.
- * * @author [Nama Anda & Rekan Anda]
- * @version 1.0
- */
 public class User {
     private String userId;
     private String namaLengkap;
@@ -29,7 +23,6 @@ public class User {
     public String getNamaLengkap() {
         return namaLengkap;
     }
-
     public String getNoHp() {
         return noHp;
     }

@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
- * Kelas Model untuk merepresentasikan data dari tabel 'bookings'.
+ * 
  */
 public class Booking {
     private String bookingId;

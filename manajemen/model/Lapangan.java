@@ -1,32 +1,12 @@
 package manajemen.model;
 
-/**
- * Kelas Model (POJO - Plain Old Java Object) untuk merepresentasikan satu baris
- * data dari tabel 'lapangan'. Setiap objek dari kelas ini adalah satu lapangan
- * futsal.
- *
- * @author [Nama Anda & Rekan Anda]
- * @version 1.0
- */
 public class Lapangan {
 
-    // 1. ATRIBUT/FIELDS
-    // Dibuat 'private' untuk enkapsulasi.
     private String lapanganId;
     private String jenisLapangan;
     private String ukuran;
     private double hargaSewaPerJam;
 
-    // 2. CONSTRUCTOR
-    /**
-     * Constructor untuk membuat objek Lapangan baru dengan semua datanya. Ini
-     * akan sangat berguna saat kita mengambil data dari database.
-     *
-     * @param lapanganId ID unik lapangan (misal: 'KL00001')
-     * @param jenisLapangan Jenis lapangan (misal: 'Sintetis')
-     * @param ukuran Ukuran lapangan (misal: 'P42 L25')
-     * @param hargaSewaPerJam Harga sewa per jamnya
-     */
     public Lapangan(String lapanganId, String jenisLapangan, String ukuran, double hargaSewaPerJam) {
         this.lapanganId = lapanganId;
         this.jenisLapangan = jenisLapangan;
@@ -34,7 +14,6 @@ public class Lapangan {
         this.hargaSewaPerJam = hargaSewaPerJam;
     }
 
-    // 3. METHODS (GETTERS)
     public String getLapanganId() {
         return lapanganId;
     }

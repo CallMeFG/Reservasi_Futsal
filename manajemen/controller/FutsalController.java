@@ -1,8 +1,6 @@
 package manajemen.controller;
-
-// 1. IMPORT SEMUA YANG DIBUTUHKAN
-import manajemen.db.DatabaseConnection; // Kelas koneksi kita
-import manajemen.model.Lapangan;      // Kelas model kita
+import manajemen.db.DatabaseConnection; 
+import manajemen.model.Lapangan;      
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,18 +13,10 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import manajemen.model.Booking;
 
-/**
- * Kelas Controller yang bertindak sebagai otak aplikasi. Menjembatani antara
- * View (nantinya) dan Model dengan database.
- *
- * @author [Nama Anda & Rekan Anda]
- * @version 1.0
- */
 public class FutsalController {
 
     public User checkLogin(String username, String password) {
         User user = null;
-        // Query hanya akan mencari user yang rolenya 'admin'
         String sql = "SELECT * FROM users WHERE username = ? AND password = ? AND role = 'admin'";
 
         try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -35,9 +25,7 @@ public class FutsalController {
             pstmt.setString(2, password);
 
             try (ResultSet rs = pstmt.executeQuery()) {
-                // Jika ada baris data yang ditemukan, berarti login berhasil
                 if (rs.next()) {
-                    // Buat objek User dari data admin yang login
                     user = new User(
                             rs.getString("user_id"),
                             rs.getString("nama_lengkap"),
@@ -51,8 +39,6 @@ public class FutsalController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        // Akan mengembalikan objek User jika berhasil, atau null jika gagal
         return user;
     }
     public boolean updateStatusPembayaran(String bookingId, String statusBaru) {
@@ -114,11 +100,9 @@ public class FutsalController {
             pstmt.setString(1, user.getNamaLengkap());
             pstmt.setString(2, user.getNoHp());
             pstmt.setString(3, user.getUsername());
-            // Hanya update password jika tidak kosong, untuk keamanan
             if (user.getPassword() != null && !user.getPassword().isEmpty()) {
                 pstmt.setString(4, user.getPassword());
             } else {
-                // Jika password kosong, jangan ubah password lama (perlu query yg sedikit berbeda, tapi ini cukup untuk sekarang)
                 pstmt.setString(4, user.getPassword()); // Untuk simple, kita set saja
             }
             pstmt.setString(5, user.getRole());
@@ -141,13 +125,11 @@ public class FutsalController {
     }
     public List<User> getAllPelanggan() {
         List<User> daftarPelanggan = new ArrayList<>();
-        // Query SQL dengan WHERE clause untuk memfilter hanya pelanggan
         String sql = "SELECT * FROM users WHERE role = 'pelanggan'";
 
         try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                // Ambil semua data dari setiap kolom
                 String id = rs.getString("user_id");
                 String nama = rs.getString("nama_lengkap");
                 String noHp = rs.getString("no_hp");
@@ -155,7 +137,6 @@ public class FutsalController {
                 String password = rs.getString("password");
                 String role = rs.getString("role");
 
-                // Buat objek User baru dan tambahkan ke list
                 User pelanggan = new User(id, nama, noHp, username, password, role);
                 daftarPelanggan.add(pelanggan);
             }
@@ -168,7 +149,6 @@ public class FutsalController {
     public List<Booking> getBookingsByDateAndLapangan(String lapanganId, Date tanggal) {
         List<Booking> daftarBooking = new ArrayList<>();
 
-        // Query SQL BARU dengan JOIN
         String sql = "SELECT b.*, u.nama_lengkap, u.no_hp "
                 + "FROM bookings b "
                 + "JOIN users u ON b.user_id_pelanggan = u.user_id "
@@ -213,7 +193,6 @@ public class FutsalController {
     public List<Booking> getAllBookings() {
         List<Booking> daftarBooking = new ArrayList<>();
 
-        // Query SQL dengan DUA JOIN untuk menggabungkan 3 tabel
         String sql = "SELECT b.*, p.nama_lengkap, l.jenis_lapangan "
                 + "FROM bookings b "
                 + "JOIN users p ON b.user_id_pelanggan = p.user_id "
@@ -251,7 +230,6 @@ public class FutsalController {
     }
     public List<Booking> getBookingsByDateRange(Date tanggalMulai, Date tanggalSelesai) {
         List<Booking> daftarBooking = new ArrayList<>();
-        // Query dengan WHERE ... BETWEEN ... AND ...
         String sql = "SELECT b.*, p.nama_lengkap, l.jenis_lapangan "
                 + "FROM bookings b "
                 + "JOIN users p ON b.user_id_pelanggan = p.user_id "
@@ -287,14 +265,14 @@ public class FutsalController {
             pstmt.setString(1, booking.getBookingId());
             pstmt.setString(2, booking.getPelanggan().getUserId());
             pstmt.setString(3, booking.getLapangan().getLapanganId());
-            pstmt.setString(4, booking.getAdmin().getUserId()); // Kita perlu ID admin yg login nanti
+            pstmt.setString(4, booking.getAdmin().getUserId()); 
             pstmt.setDate(5, booking.getTanggalMain());
             pstmt.setTime(6, booking.getJamMulai());
-            pstmt.setInt(7, booking.getDurasiJam()); // Ambil durasi dari objek booking
-            pstmt.setDouble(8, booking.getTotalHarga()); // Ambil total harga dari objek booking
-            pstmt.setString(9, "Tunai"); // Asumsi metode pembayaran
-            pstmt.setString(10, "Belum Lunas"); // Asumsi status pembayaran
-            pstmt.setTimestamp(11, new java.sql.Timestamp(System.currentTimeMillis())); // Waktu booking saat ini
+            pstmt.setInt(7, booking.getDurasiJam()); 
+            pstmt.setDouble(8, booking.getTotalHarga()); 
+            pstmt.setString(9, "Tunai");
+            pstmt.setString(10, "Belum Lunas"); 
+            pstmt.setTimestamp(11, new java.sql.Timestamp(System.currentTimeMillis()));
 
             int rowsInserted = pstmt.executeUpdate();
             return rowsInserted > 0;
@@ -305,26 +283,20 @@ public class FutsalController {
         }
     }
     public List<Lapangan> getAllLapangan() {
-        // Buat sebuah list kosong untuk menampung hasil
         List<Lapangan> daftarLapangan = new ArrayList<>();
 
         String sql = "SELECT * FROM lapangan";
 
-        // Gunakan try-with-resources untuk memastikan koneksi dan statement tertutup otomatis
         try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
 
-            // 2. Looping selama masih ada baris data di dalam ResultSet (rs)
             while (rs.next()) {
-                // 3. Ambil data dari setiap kolom di baris saat ini
                 String id = rs.getString("lapangan_id");
                 String jenis = rs.getString("jenis_lapangan");
                 String ukuran = rs.getString("ukuran");
                 double harga = rs.getDouble("harga_sewa_per_jam");
 
-                // 4. Buat objek Lapangan baru dari data yang didapat
                 Lapangan lapangan = new Lapangan(id, jenis, ukuran, harga);
 
-                // 5. Tambahkan objek Lapangan tersebut ke dalam list
                 daftarLapangan.add(lapangan);
             }
         } catch (SQLException e) {
@@ -332,7 +304,6 @@ public class FutsalController {
             e.printStackTrace();
         }
 
-        // Kembalikan list yang sudah terisi (atau tetap kosong jika tidak ada data/error)
         return daftarLapangan;
     }
     public boolean tambahLapangan(Lapangan lapangan) {
@@ -340,39 +311,27 @@ public class FutsalController {
 
         try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            // Set parameter query (?) sesuai dengan data dari objek Lapangan
             pstmt.setString(1, lapangan.getLapanganId());
             pstmt.setString(2, lapangan.getJenisLapangan());
             pstmt.setString(3, lapangan.getUkuran());
             pstmt.setDouble(4, lapangan.getHargaSewaPerJam());
 
-            // Eksekusi query
             int rowsInserted = pstmt.executeUpdate();
 
-            // Kembalikan true jika ada baris yang berhasil ditambahkan (biasanya 1)
             return rowsInserted > 0;
 
         } catch (SQLException e) {
             System.err.println("Gagal menyimpan data lapangan: " + e.getMessage());
-            // Tampilkan error ke pengguna jika perlu, misalnya jika ID sudah ada
-            // JOptionPane.showMessageDialog(null, "Gagal menyimpan: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
             return false;
         }
     }
     public boolean hapusLapangan(String id) {
-        // Query SQL untuk DELETE data berdasarkan primary key
         String sql = "DELETE FROM lapangan WHERE lapangan_id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            // Set parameter (?) dengan ID yang akan dihapus
             pstmt.setString(1, id);
-
-            // Eksekusi query
             int rowsDeleted = pstmt.executeUpdate();
-
-            // Kembalikan true jika ada baris yang berhasil dihapus
             return rowsDeleted > 0;
 
         } catch (SQLException e) {
@@ -386,11 +345,10 @@ public class FutsalController {
 
         try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            // Set parameter berdasarkan urutan tanda tanya (?)
             pstmt.setString(1, lapangan.getJenisLapangan());
             pstmt.setString(2, lapangan.getUkuran());
             pstmt.setDouble(3, lapangan.getHargaSewaPerJam());
-            pstmt.setString(4, lapangan.getLapanganId()); // Parameter untuk WHERE clause
+            pstmt.setString(4, lapangan.getLapanganId()); 
 
             int rowsUpdated = pstmt.executeUpdate();
             return rowsUpdated > 0;
