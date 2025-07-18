@@ -4,9 +4,12 @@
  */
 package manajemen.view;
 
+import java.awt.Color;
 import manajemen.controller.FutsalController;
 import manajemen.model.User;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 /**
  *
@@ -19,8 +22,43 @@ public class FormLogin extends javax.swing.JDialog {
     public FormLogin(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        initializePlaceholders();
         this.setLocationRelativeTo(null); // Agar muncul di tengah layar
     }
+
+    private void addPlaceholder(JTextField field, String placeholder) {
+        if (field.getText().isEmpty()) {
+            field.setText(placeholder);
+            field.setForeground(Color.GRAY);
+        }
+    }
+    private void addPlaceholder(JPasswordField field, String placeholder) {
+        char defaultChar = field.getEchoChar();
+        if (new String(field.getPassword()).isEmpty()) {
+            field.setEchoChar((char) 0); 
+            field.setText(placeholder);
+            field.setForeground(Color.GRAY);
+        }
+    }
+    private void removePlaceholder(JTextField field, String placeholder) {
+        if (field.getText().equals(placeholder)) {
+            field.setText("");
+            field.setForeground(Color.BLACK);
+        }
+    }
+    private void removePlaceholder(JPasswordField field, String placeholder) {
+        char defaultChar = new JPasswordField().getEchoChar(); 
+        if (new String(field.getPassword()).equals(placeholder)) {
+            field.setText("");
+            field.setEchoChar(defaultChar); 
+            field.setForeground(Color.BLACK);
+        }
+    }
+    private void initializePlaceholders() {
+        addPlaceholder(txtUsername, "Masukkan Username");
+        addPlaceholder(pwdPassword, "Masukkan Password");
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,32 +70,56 @@ public class FormLogin extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         txtUsername = new javax.swing.JTextField();
         pwdPassword = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Login Aplikasi");
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Username");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, -1, -1));
+        txtUsername.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtUsernameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtUsernameFocusLost(evt);
+            }
+        });
+        txtUsername.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUsernameActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 330, 40));
 
-        jLabel2.setText("Password");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, -1, -1));
-        jPanel1.add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, 130, -1));
-        jPanel1.add(pwdPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 110, 130, -1));
+        pwdPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                pwdPasswordFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                pwdPasswordFocusLost(evt);
+            }
+        });
+        jPanel1.add(pwdPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 330, 40));
 
+        btnLogin.setBackground(new java.awt.Color(153, 227, 62));
+        btnLogin.setFont(new java.awt.Font("Segoe UI Black", 1, 16)); // NOI18N
         btnLogin.setText("Login");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
             }
         });
-        jPanel1.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 210, -1, -1));
+        jPanel1.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 220, 330, 40));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Login ke CallmeFutsal");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -86,13 +148,33 @@ public class FormLogin extends javax.swing.JDialog {
         FutsalController controller = new FutsalController();
         User user = controller.checkLogin(username, password);
 
-        if (user != null) { // Jika login berhasil (controller mengembalikan objek User)
+        if (user != null) {
             this.loggedInUser = user; // Simpan user yang login
-            this.dispose(); // Tutup jendela login
-        } else { // Jika login gagal (controller mengembalikan null)
+            this.dispose(); 
+        } else { 
             JOptionPane.showMessageDialog(this, "Username atau Password salah.", "Login Gagal", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void txtUsernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsernameFocusGained
+        removePlaceholder(txtUsername, "Masukkan Username");
+    }//GEN-LAST:event_txtUsernameFocusGained
+
+    private void txtUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsernameFocusLost
+        addPlaceholder(txtUsername, "Masukkan Username");
+    }//GEN-LAST:event_txtUsernameFocusLost
+
+    private void pwdPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pwdPasswordFocusGained
+        removePlaceholder(pwdPassword, "Masukkan Password");
+    }//GEN-LAST:event_pwdPasswordFocusGained
+
+    private void pwdPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pwdPasswordFocusLost
+        addPlaceholder(pwdPassword, "Masukkan Password");
+    }//GEN-LAST:event_pwdPasswordFocusLost
+
+    private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUsernameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -138,8 +220,7 @@ public class FormLogin extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField pwdPassword;
     private javax.swing.JTextField txtUsername;

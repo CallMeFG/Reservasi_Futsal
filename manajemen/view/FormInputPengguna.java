@@ -34,11 +34,9 @@ public class FormInputPengguna extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
-        // Atur semua placeholder saat form pertama kali dibuat
         initializePlaceholders();
         updateUserFieldsState();
     }
-// Constructor untuk mode Edit
 
     public FormInputPengguna(java.awt.Frame parent, boolean modal, User user) {
         super(parent, modal);
@@ -49,7 +47,6 @@ public class FormInputPengguna extends javax.swing.JDialog {
         updateUserFieldsState(); 
     }
 
-    // Helper untuk Placeholder
     private void addPlaceholder(JTextField field, String placeholder) {
         if (field.getText().isEmpty()) {
             field.setText(placeholder);
@@ -64,33 +61,30 @@ public class FormInputPengguna extends javax.swing.JDialog {
         }
     }
 
-    // Overload untuk JPasswordField
     private void addPlaceholder(JPasswordField field, String placeholder) {
-        // Untuk password, kita set echo char agar teks placeholder terlihat
         char defaultChar = field.getEchoChar();
         if (new String(field.getPassword()).isEmpty()) {
-            field.setEchoChar((char) 0); // Tampilkan teks biasa
+            field.setEchoChar((char) 0); 
             field.setText(placeholder);
             field.setForeground(Color.GRAY);
         }
     }
 
     private void removePlaceholder(JPasswordField field, String placeholder) {
-        char defaultChar = new JPasswordField().getEchoChar(); // Dapatkan echo char default
+        char defaultChar = new JPasswordField().getEchoChar(); 
         if (new String(field.getPassword()).equals(placeholder)) {
             field.setText("");
-            field.setEchoChar(defaultChar); // Kembalikan mode password
+            field.setEchoChar(defaultChar); 
             field.setForeground(Color.BLACK);
         }
     }
 
-    // Method baru untuk menginisialisasi semua placeholder
     private void initializePlaceholders() {
         addPlaceholder(txtId, "Masukkan ID");
         addPlaceholder(txtNama, "Masukkan Nama");
         addPlaceholder(txtNoHp, "Masukkan No Hp");
-        addPlaceholder(txtUsername, "Username (opsional)");
-        addPlaceholder(pwdPassword, "Password (opsional)");
+        addPlaceholder(txtUsername, "Masukkan Username");
+        addPlaceholder(pwdPassword, "Masukkan Password");
     }
 // Method untuk mengisi form saat mode edit
 
@@ -99,39 +93,30 @@ public class FormInputPengguna extends javax.swing.JDialog {
         txtNama.setText(userToEdit.getNamaLengkap());
         txtNoHp.setText(userToEdit.getNoHp());
         txtUsername.setText(userToEdit.getUsername());
-        // Kosongkan password demi keamanan, hanya diisi jika ingin diubah
         pwdPassword.setText("");
         cmbRole.setSelectedItem(userToEdit.getRole());
-        // Saat mode edit, text field sudah terisi, jadi warnanya hitam
         txtId.setForeground(Color.BLACK);
         txtNama.setForeground(Color.BLACK);
         txtNoHp.setForeground(Color.BLACK);
         txtUsername.setForeground(Color.BLACK);
 
-        // Tambahkan placeholder untuk password yang dikosongkan
-        addPlaceholder(pwdPassword, "Password (opsional)");
+        addPlaceholder(pwdPassword, "Masukkan Password");
 
         txtId.setEditable(false);
     }
 
     private void updateUserFieldsState() {
-        // 1. Ambil role yang sedang dipilih
         String selectedRole = (String) cmbRole.getSelectedItem();
 
-        // 2. Cek apakah role tersebut "Admin"
         if ("Admin".equals(selectedRole)) {
-            // Jika "Admin", aktifkan field Username dan Password
             txtUsername.setEnabled(true);
             pwdPassword.setEnabled(true);
-            // Kita juga bisa mengembalikan placeholder-nya jika perlu
-            addPlaceholder(txtUsername, "Username (opsional)");
-            addPlaceholder(pwdPassword, "Password (opsional)");
+            addPlaceholder(txtUsername, "Masukkan Username");
+            addPlaceholder(pwdPassword, "Masukkan Password");
         } else {
-            // Jika bukan "Admin" (alias "Pelanggan"), nonaktifkan field
             txtUsername.setEnabled(false);
             pwdPassword.setEnabled(false);
 
-            // 3. Kosongkan isinya untuk memastikan tidak ada data yang tersimpan
             txtUsername.setText("");
             pwdPassword.setText("");
         }
@@ -260,6 +245,11 @@ public class FormInputPengguna extends javax.swing.JDialog {
                 pwdPasswordFocusLost(evt);
             }
         });
+        pwdPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pwdPasswordActionPerformed(evt);
+            }
+        });
         jPanel2.add(pwdPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 240, 180, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -349,16 +339,15 @@ public class FormInputPengguna extends javax.swing.JDialog {
             noHp = "";
         }
         String username = txtUsername.getText();
-        if (username.equals("Username (opsional)")) {
+        if (username.equals("Masukkan Username")) {
             username = "";
         }
         String password = new String(pwdPassword.getPassword());
-        if (password.equals("Password (opsional)")) {
+        if (password.equals("Masukkan Password")) {
             password = "";
         }
         String role = (String) cmbRole.getSelectedItem();
 
-        // Validasi sederhana (bisa Anda kembangkan)
         if (id.isEmpty() || nama.isEmpty() || noHp.isEmpty() || role.isEmpty()) {
             JOptionPane.showMessageDialog(this, "ID, Nama, No.HP, dan Role tidak boleh kosong!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -368,12 +357,11 @@ public class FormInputPengguna extends javax.swing.JDialog {
         FutsalController controller = new FutsalController();
         boolean sukses;
 
-        if (userToEdit == null) { // Mode Tambah
+        if (userToEdit == null) { 
             sukses = controller.tambahUser(user);
-        } else { // Mode Edit
+        } else {
             sukses = controller.updateUser(user);
         }
-
         if (sukses) {
             JOptionPane.showMessageDialog(this, "Data pengguna berhasil disimpan!");
             this.dispose();
@@ -411,44 +399,44 @@ public class FormInputPengguna extends javax.swing.JDialog {
     }//GEN-LAST:event_txtNoHpFocusLost
 
     private void txtUsernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsernameFocusGained
-        removePlaceholder(txtUsername, "Username (opsional)");
+        removePlaceholder(txtUsername, "Masukkan Username");
     }//GEN-LAST:event_txtUsernameFocusGained
 
     private void txtUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsernameFocusLost
-        addPlaceholder(txtUsername, "Username (opsional)");
+        addPlaceholder(txtUsername, "Masukkan Username");
     }//GEN-LAST:event_txtUsernameFocusLost
 
     private void pwdPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pwdPasswordFocusGained
-        removePlaceholder(pwdPassword, "Password (opsional)");
+        removePlaceholder(pwdPassword, "Masukkan Password");
     }//GEN-LAST:event_pwdPasswordFocusGained
 
     private void pwdPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pwdPasswordFocusLost
-        addPlaceholder(pwdPassword, "Password (opsional)");
+        addPlaceholder(pwdPassword, "Masukkan Password");
     }//GEN-LAST:event_pwdPasswordFocusLost
 
     private void btnSimpanUserMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSimpanUserMouseEntered
         btnSimpanUser.setBackground(simpanHover);
-//        btnSimpanUser.setBorder(BorderFactory.createLineBorder(simpanNormal, 2));
     }//GEN-LAST:event_btnSimpanUserMouseEntered
 
     private void btnSimpanUserMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSimpanUserMouseExited
         btnSimpanUser.setBackground(simpanNormal);
-//        btnSimpanUser.setBorder(null); // Hapus border saat mouse keluar
     }//GEN-LAST:event_btnSimpanUserMouseExited
 
     private void btnBatalUserMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBatalUserMouseEntered
         btnBatalUser.setBackground(batalHover);
-//        btnBatalUser.setBorder(BorderFactory.createLineBorder(batalNormal, 2));
     }//GEN-LAST:event_btnBatalUserMouseEntered
 
     private void btnBatalUserMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBatalUserMouseExited
         btnBatalUser.setBackground(batalNormal);
-//        btnBatalUser.setBorder(null); // Hapus border saat mouse keluar
     }//GEN-LAST:event_btnBatalUserMouseExited
 
     private void cmbRoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRoleActionPerformed
         updateUserFieldsState();
     }//GEN-LAST:event_cmbRoleActionPerformed
+
+    private void pwdPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwdPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pwdPasswordActionPerformed
 
     /**
      * @param args the command line arguments

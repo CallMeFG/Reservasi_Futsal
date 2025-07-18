@@ -11,6 +11,7 @@ import manajemen.model.User;
 import java.util.List;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,6 +27,7 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
     public FormTransaksiBooking() {
         initComponents();
         loadDropdownData();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         tblJadwal.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             @Override
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -33,6 +35,7 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
             }
         });
     }
+
     private void loadDropdownData() {
         FutsalController controller = new FutsalController();
 
@@ -48,14 +51,15 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
             cmbLapangan.addItem(lapangan);
         }
     }
+
     private void displayJadwal(List<Booking> bookings) {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Jam");
         model.addColumn("Status");
         model.addColumn("Dipesan oleh");
 
-        int jamMulaiOperasional = 8;  
-        int jamSelesaiOperasional = 23; 
+        int jamMulaiOperasional = 8;
+        int jamSelesaiOperasional = 23;
 
         for (int jam = jamMulaiOperasional; jam < jamSelesaiOperasional; jam++) {
             String slotWaktu = String.format("%02d:00 - %02d:00", jam, jam + 1);
@@ -79,49 +83,50 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
         tblJadwal.setModel(model);
     }
 
-    private void tblJadwalValueChanged(javax.swing.event.ListSelectionEvent evt) {     
-    int[] selectedRows = tblJadwal.getSelectedRows();
+    private void tblJadwalValueChanged(javax.swing.event.ListSelectionEvent evt) {
+        int[] selectedRows = tblJadwal.getSelectedRows();
 
-    if (!evt.getValueIsAdjusting() && selectedRows.length > 0) {
-        
-        boolean pilihanValid = true;
-        for (int row : selectedRows) {
-            if (!tblJadwal.getValueAt(row, 1).toString().equals("Tersedia")) {
-                pilihanValid = false;
-                break;
-            }
-        }
+        if (!evt.getValueIsAdjusting() && selectedRows.length > 0) {
 
-        if (pilihanValid && selectedRows.length > 1) {
-            java.util.Arrays.sort(selectedRows);
-            for (int i = 0; i < selectedRows.length - 1; i++) {
-                if (selectedRows[i+1] != selectedRows[i] + 1) {
-                    pilihanValid = false; // Ditemukan jeda!
+            boolean pilihanValid = true;
+            for (int row : selectedRows) {
+                if (!tblJadwal.getValueAt(row, 1).toString().equals("Tersedia")) {
+                    pilihanValid = false;
                     break;
                 }
             }
-        }
-        
-        if (pilihanValid) {
-            String jamMulai = tblJadwal.getValueAt(selectedRows[0], 0).toString().substring(0, 5);
-            String jamSelesai = tblJadwal.getValueAt(selectedRows[selectedRows.length - 1], 0).toString().substring(8, 13);
-            
-            int durasi = selectedRows.length;
-            
-            Lapangan lapanganTerpilih = (Lapangan) cmbLapangan.getSelectedItem();
-            double totalHarga = lapanganTerpilih.getHargaSewaPerJam() * durasi;
 
-            txtJamPilihan.setText(jamMulai + " - " + jamSelesai);
-            txtHargaPilihan.setText(String.valueOf(totalHarga));
+            if (pilihanValid && selectedRows.length > 1) {
+                java.util.Arrays.sort(selectedRows);
+                for (int i = 0; i < selectedRows.length - 1; i++) {
+                    if (selectedRows[i + 1] != selectedRows[i] + 1) {
+                        pilihanValid = false; // Ditemukan jeda!
+                        break;
+                    }
+                }
+            }
 
-        } else {
-            JOptionPane.showMessageDialog(this, "Pilihan tidak valid! Pastikan semua jam yang dipilih 'Tersedia' dan berurutan.", "Peringatan", JOptionPane.WARNING_MESSAGE);
-            tblJadwal.clearSelection(); // Batalkan pilihan
-            txtJamPilihan.setText("");
-            txtHargaPilihan.setText("");
+            if (pilihanValid) {
+                String jamMulai = tblJadwal.getValueAt(selectedRows[0], 0).toString().substring(0, 5);
+                String jamSelesai = tblJadwal.getValueAt(selectedRows[selectedRows.length - 1], 0).toString().substring(8, 13);
+
+                int durasi = selectedRows.length;
+
+                Lapangan lapanganTerpilih = (Lapangan) cmbLapangan.getSelectedItem();
+                double totalHarga = lapanganTerpilih.getHargaSewaPerJam() * durasi;
+
+                txtJamPilihan.setText(jamMulai + " - " + jamSelesai);
+                txtHargaPilihan.setText(String.valueOf(totalHarga));
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Pilihan tidak valid! Pastikan semua jam yang dipilih 'Tersedia' dan berurutan.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                tblJadwal.clearSelection(); // Batalkan pilihan
+                txtJamPilihan.setText("");
+                txtHargaPilihan.setText("");
+            }
         }
     }
-}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -149,7 +154,6 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
         txtHargaPilihan = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         menuItemKeluar = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         menuItemManajemenLapangan = new javax.swing.JMenuItem();
@@ -160,29 +164,30 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Transaksi Booking - Manajemen Futsal");
         setLocationByPlatform(true);
+        setPreferredSize(new java.awt.Dimension(1366, 768));
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(800, 650));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1366, 768));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Pilih Pelanggan");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 30, -1, -1));
 
-        jPanel1.add(cmbPelanggan, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, 110, -1));
+        jPanel1.add(cmbPelanggan, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 30, 110, -1));
 
         jLabel2.setText("Pilih Lapangan");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 70, -1, -1));
 
-        jPanel1.add(cmbLapangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 80, 110, -1));
+        jPanel1.add(cmbLapangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 70, 110, -1));
 
         jLabel3.setText("Pilih Tanggal");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 110, -1, -1));
 
         txtTanggal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTanggalActionPerformed(evt);
             }
         });
-        jPanel1.add(txtTanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 120, 110, -1));
+        jPanel1.add(txtTanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 110, 110, -1));
 
         btnCekJadwal.setText("Cek Jadwal");
         btnCekJadwal.addActionListener(new java.awt.event.ActionListener() {
@@ -190,7 +195,7 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
                 btnCekJadwalActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCekJadwal, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 160, -1, -1));
+        jPanel1.add(btnCekJadwal, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 150, -1, -1));
 
         tblJadwal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -206,7 +211,7 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
         tblJadwal.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jScrollPane1.setViewportView(tblJadwal);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, -1, 250));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 190, 560, 270));
 
         btnSimpanBooking.setText("Simpan Booking");
         btnSimpanBooking.addActionListener(new java.awt.event.ActionListener() {
@@ -214,22 +219,21 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
                 btnSimpanBookingActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSimpanBooking, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 580, 130, 40));
+        jPanel1.add(btnSimpanBooking, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 560, 130, 40));
 
         jLabel4.setText("Jam Pilihan");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 480, -1, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 480, -1, -1));
 
         txtJamPilihan.setEditable(false);
-        jPanel1.add(txtJamPilihan, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 480, 110, -1));
+        jPanel1.add(txtJamPilihan, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 480, 110, -1));
 
         jLabel5.setText("Harga");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 520, -1, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 520, -1, -1));
 
         txtHargaPilihan.setEditable(false);
-        jPanel1.add(txtHargaPilihan, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 520, 110, -1));
+        jPanel1.add(txtHargaPilihan, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 520, 110, -1));
 
         jMenu1.setText("File");
-        jMenu1.add(jSeparator2);
 
         menuItemKeluar.setText("Keluar");
         menuItemKeluar.addActionListener(new java.awt.event.ActionListener() {
@@ -279,7 +283,10 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -318,58 +325,58 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCekJadwalActionPerformed
 
     private void btnSimpanBookingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanBookingActionPerformed
-    if (txtJamPilihan.getText().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Silakan pilih slot waktu yang tersedia dari tabel.", "Peringatan", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    User pelangganTerpilih = (User) cmbPelanggan.getSelectedItem();
-    Lapangan lapanganTerpilih = (Lapangan) cmbLapangan.getSelectedItem();
-    String tanggalStr = txtTanggal.getText();
-    String jamMulaiStr = txtJamPilihan.getText().substring(0, 5); 
-
-    int durasi = tblJadwal.getSelectedRows().length;
-    double totalHarga = Double.parseDouble(txtHargaPilihan.getText());
-    try {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        java.util.Date utilDate = sdf.parse(tanggalStr);
-        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-
-        SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
-        long ms = sdfTime.parse(jamMulaiStr).getTime();
-        java.sql.Time sqlTime = new java.sql.Time(ms);
-
-        User adminLogin = new User("ADM01", "Admin Utama", null, null, null, "admin");
-        String bookingId = "BK" + System.currentTimeMillis();
-
-        Booking bookingBaru = new Booking(
-                bookingId,
-                pelangganTerpilih,
-                lapanganTerpilih,
-                adminLogin,
-                sqlDate,
-                sqlTime,
-                durasi,       
-                totalHarga,   
-                "Tunai",     
-                "Belum Lunas",
-                new java.sql.Timestamp(System.currentTimeMillis())
-        );
-        FutsalController controller = new FutsalController();
-        boolean sukses = controller.simpanBooking(bookingBaru);
-
-        if (sukses) {
-            JOptionPane.showMessageDialog(this, "Booking berhasil disimpan!");
-            btnCekJadwal.doClick(); 
-            txtJamPilihan.setText("");
-            txtHargaPilihan.setText("");
-        } else {
-            JOptionPane.showMessageDialog(this, "Gagal menyimpan booking.", "Error", JOptionPane.ERROR_MESSAGE);
+        if (txtJamPilihan.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Silakan pilih slot waktu yang tersedia dari tabel.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
-    } catch (ParseException e) {
-        JOptionPane.showMessageDialog(this, "Terjadi kesalahan format tanggal atau jam.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
+        User pelangganTerpilih = (User) cmbPelanggan.getSelectedItem();
+        Lapangan lapanganTerpilih = (Lapangan) cmbLapangan.getSelectedItem();
+        String tanggalStr = txtTanggal.getText();
+        String jamMulaiStr = txtJamPilihan.getText().substring(0, 5);
+
+        int durasi = tblJadwal.getSelectedRows().length;
+        double totalHarga = Double.parseDouble(txtHargaPilihan.getText());
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date utilDate = sdf.parse(tanggalStr);
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+            SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
+            long ms = sdfTime.parse(jamMulaiStr).getTime();
+            java.sql.Time sqlTime = new java.sql.Time(ms);
+
+            User adminLogin = new User("ADM01", "Admin Utama", null, null, null, "admin");
+            String bookingId = "BK" + System.currentTimeMillis();
+
+            Booking bookingBaru = new Booking(
+                    bookingId,
+                    pelangganTerpilih,
+                    lapanganTerpilih,
+                    adminLogin,
+                    sqlDate,
+                    sqlTime,
+                    durasi,
+                    totalHarga,
+                    "Tunai",
+                    "Belum Lunas",
+                    new java.sql.Timestamp(System.currentTimeMillis())
+            );
+            FutsalController controller = new FutsalController();
+            boolean sukses = controller.simpanBooking(bookingBaru);
+
+            if (sukses) {
+                JOptionPane.showMessageDialog(this, "Booking berhasil disimpan!");
+                btnCekJadwal.doClick();
+                txtJamPilihan.setText("");
+                txtHargaPilihan.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Gagal menyimpan booking.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(this, "Terjadi kesalahan format tanggal atau jam.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnSimpanBookingActionPerformed
 
     private void menuItemKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemKeluarActionPerformed
@@ -454,7 +461,6 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuItem menuItemKeluar;
     private javax.swing.JMenuItem menuItemLaporanBooking;
     private javax.swing.JMenuItem menuItemManajemenLapangan;

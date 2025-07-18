@@ -3,12 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package manajemen.view;
-// Jangan lupa tambahkan import ini di bagian atas file
 
 import java.awt.*;
 import javax.swing.*;
-import manajemen.controller.FutsalController; // Mungkin sudah ada
-import manajemen.model.Lapangan; // Mungkin sudah ada
+import manajemen.controller.FutsalController;  
+import manajemen.model.Lapangan; 
 
 /**
  *
@@ -16,7 +15,7 @@ import manajemen.model.Lapangan; // Mungkin sudah ada
  */
 public class FormInputLapangan extends javax.swing.JDialog {
 
-    private Lapangan lapanganToEdit; // <--- TAMBAHKAN ATRIBUT INI
+    private Lapangan lapanganToEdit; 
 
     /**
      * Creates new form FormInputLapangan1
@@ -25,22 +24,18 @@ public class FormInputLapangan extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
-        initializePlaceholders(); // Panggil method untuk set placeholder
+        initializePlaceholders(); 
     }
 
-    // Constructor KEDUA untuk mode EDIT
+    // mode EDIT
     public FormInputLapangan(java.awt.Frame parent, boolean modal, Lapangan lapangan) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
-        // Simpan objek lapangan yang akan di-edit
         this.lapanganToEdit = lapangan;
 
-        // Panggil method untuk mengisi form dengan data dari objek
         populateForm();
     }
-    // --- HELPER METHODS UNTUK PLACEHOLDER ---
-    // (Kode ini sama persis seperti di form sebelumnya)
     private void addPlaceholder(JTextField field, String placeholder) {
         if (field.getText().isEmpty()) {
             field.setText(placeholder);
@@ -54,29 +49,24 @@ public class FormInputLapangan extends javax.swing.JDialog {
             field.setForeground(Color.BLACK);
         }
     }
-    // --- AKHIR HELPER METHODS ---
     
-    // Method baru untuk inisialisasi semua placeholder
     private void initializePlaceholders() {
         addPlaceholder(txtIdLapangan, "Contoh: L01");
         addPlaceholder(txtJenis, "Contoh: Rumput Sintetis");
         addPlaceholder(txtUkuran, "Contoh: 25m x 15m");
         addPlaceholder(txtHarga, "Contoh: 150000");
     }
-    // Method untuk mengisi field di form dengan data
     private void populateForm() {
         txtIdLapangan.setText(lapanganToEdit.getLapanganId());
         txtJenis.setText(lapanganToEdit.getJenisLapangan());
         txtUkuran.setText(lapanganToEdit.getUkuran());
         txtHarga.setText(String.valueOf(lapanganToEdit.getHargaSewaPerJam())); // Konversi double ke String
         
-        // Pastikan teks yang diisi berwarna hitam
         txtIdLapangan.setForeground(Color.BLACK);
         txtJenis.setForeground(Color.BLACK);
         txtUkuran.setForeground(Color.BLACK);
         txtHarga.setForeground(Color.BLACK);
 
-        // PENTING: Buat ID tidak bisa diedit untuk mencegah mengubah Primary Key
         txtIdLapangan.setEditable(false);
     }
 
@@ -237,7 +227,6 @@ public class FormInputLapangan extends javax.swing.JDialog {
     }//GEN-LAST:event_txtIdLapanganActionPerformed
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
-        // Perintah untuk menutup jendela JDialog ini saja
         this.dispose();
     }//GEN-LAST:event_btnBatalActionPerformed
 
@@ -247,7 +236,6 @@ public class FormInputLapangan extends javax.swing.JDialog {
         String ukuran = txtUkuran.getText();
         String hargaStr = txtHarga.getText();
 
-        // Cek apakah field masih berisi placeholder sebelum validasi
         if (id.equals("Contoh: L01") || jenis.equals("Contoh: Rumput Sintetis") || 
             ukuran.equals("Contoh: 25m x 15m") || hargaStr.equals("Contoh: 150000") ||
             id.isEmpty() || jenis.isEmpty() || ukuran.isEmpty() || hargaStr.isEmpty()) {
@@ -270,7 +258,6 @@ public class FormInputLapangan extends javax.swing.JDialog {
             }
 
             if (sukses) {
-                // Pesan disesuaikan tergantung mode
                 String message = (lapanganToEdit == null) ? "Data berhasil ditambahkan!" : "Data berhasil diperbarui!";
                 JOptionPane.showMessageDialog(this, message);
                 this.dispose();

@@ -8,8 +8,8 @@ public class DatabaseConnection {
     private static final String USER = "root";
     private static final String PASS = "";
     private static Connection connection;
+    
     private DatabaseConnection() {
-        // sengaja dikosongkan.
     }
     public static synchronized Connection getConnection() {
         try {

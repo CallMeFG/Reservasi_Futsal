@@ -21,31 +21,23 @@ public class FormManajemenLapangan extends javax.swing.JFrame {
      */
     public FormManajemenLapangan() {
         initComponents();
-        loadDataToTable();  // <--- TAMBAHKAN BARIS INI
+        loadDataToTable();  
     }
 
-    // Letakkan method ini di dalam kelas FormManajemenLapangan
     private void loadDataToTable() {
-        // 1. Dapatkan model dari tabel kita yang bernama tblLapangan
-        // DefaultTableModel memungkinkan kita memanipulasi data tabel (baris, kolom)
         DefaultTableModel model = new DefaultTableModel();
 
-        // 2. Hapus kolom default dan atur kolom baru yang kita inginkan
         model.addColumn("ID Lapangan");
         model.addColumn("Jenis Lapangan");
         model.addColumn("Ukuran");
         model.addColumn("Harga Sewa / Jam");
 
-        // Set model yang baru ini ke JTable kita
         tblLapangan.setModel(model);
 
-        // 3. Panggil controller untuk mendapatkan semua data lapangan dari database
         FutsalController controller = new FutsalController();
         List<Lapangan> daftarLapangan = controller.getAllLapangan();
 
-        // 4. Looping melalui setiap objek Lapangan di dalam list
         for (Lapangan lap : daftarLapangan) {
-            // 5. Buat sebuah baris data (Object array) sesuai urutan kolom
             Object[] rowData = {
                 lap.getLapanganId(),
                 lap.getJenisLapangan(),
