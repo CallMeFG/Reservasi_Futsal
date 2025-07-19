@@ -26,7 +26,9 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
      */
     public FormTransaksiBooking() {
         initComponents();
+        jdcTanggal.setMinSelectableDate(new java.util.Date());
         loadDropdownData();
+        setLocationRelativeTo(null);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         tblJadwal.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             @Override
@@ -39,13 +41,13 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
     private void loadDropdownData() {
         FutsalController controller = new FutsalController();
 
-        cmbPelanggan.removeAllItems(); // Bersihkan item lama 
+        cmbPelanggan.removeAllItems(); 
         List<User> daftarPelanggan = controller.getAllPelanggan();
         for (User pelanggan : daftarPelanggan) {
             cmbPelanggan.addItem(pelanggan);
         }
 
-        cmbLapangan.removeAllItems(); // Bersihkan item lama
+        cmbLapangan.removeAllItems(); 
         List<Lapangan> daftarLapangan = controller.getAllLapangan();
         for (Lapangan lapangan : daftarLapangan) {
             cmbLapangan.addItem(lapangan);
@@ -138,65 +140,287 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
 
         jSeparator1 = new javax.swing.JSeparator();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        cmbPelanggan = new javax.swing.JComboBox<>();
+        panelSidebar = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        btnBooking = new javax.swing.JButton();
+        btnUsers = new javax.swing.JButton();
+        btnLapangan = new javax.swing.JButton();
+        btnRiwayat = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        judul = new javax.swing.JLabel();
+        panelContent = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jdcTanggal = new com.toedter.calendar.JDateChooser();
+        jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         cmbLapangan = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
-        txtTanggal = new javax.swing.JTextField();
         btnCekJadwal = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        cmbPelanggan = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        txtJamPilihan = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtHargaPilihan = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        btnSimpanBooking = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblJadwal = new javax.swing.JTable();
-        btnSimpanBooking = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        txtJamPilihan = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        txtHargaPilihan = new javax.swing.JTextField();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        menuItemKeluar = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        menuItemManajemenLapangan = new javax.swing.JMenuItem();
-        menuItemManajemenPengguna = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        menuItemLaporanBooking = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Transaksi Booking - Manajemen Futsal");
         setLocationByPlatform(true);
-        setPreferredSize(new java.awt.Dimension(1366, 768));
+        setResizable(false);
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(1366, 768));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1310, 740));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1310, 740));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Pilih Pelanggan");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 30, -1, -1));
+        panelSidebar.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel1.add(cmbPelanggan, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 30, 110, -1));
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
+        jLabel6.setText("CallmeFutsal");
 
-        jLabel2.setText("Pilih Lapangan");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 70, -1, -1));
-
-        jPanel1.add(cmbLapangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 70, 110, -1));
-
-        jLabel3.setText("Pilih Tanggal");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 110, -1, -1));
-
-        txtTanggal.addActionListener(new java.awt.event.ActionListener() {
+        btnBooking.setBackground(new java.awt.Color(153, 227, 62));
+        btnBooking.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        btnBooking.setText("Booking");
+        btnBooking.setEnabled(false);
+        btnBooking.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTanggalActionPerformed(evt);
+                btnBookingActionPerformed(evt);
             }
         });
-        jPanel1.add(txtTanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 110, 110, -1));
 
+        btnUsers.setBackground(new java.awt.Color(153, 227, 62));
+        btnUsers.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        btnUsers.setText("Users");
+        btnUsers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsersActionPerformed(evt);
+            }
+        });
+
+        btnLapangan.setBackground(new java.awt.Color(153, 227, 62));
+        btnLapangan.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        btnLapangan.setText("Lapangan");
+        btnLapangan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLapanganActionPerformed(evt);
+            }
+        });
+
+        btnRiwayat.setBackground(new java.awt.Color(153, 227, 62));
+        btnRiwayat.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        btnRiwayat.setText("Riwayat");
+        btnRiwayat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRiwayatActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/manajemen/assets/callmefutsal-ikon.png"))); // NOI18N
+
+        javax.swing.GroupLayout panelSidebarLayout = new javax.swing.GroupLayout(panelSidebar);
+        panelSidebar.setLayout(panelSidebarLayout);
+        panelSidebarLayout.setHorizontalGroup(
+            panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSidebarLayout.createSequentialGroup()
+                .addGroup(panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelSidebarLayout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel8))
+                    .addGroup(panelSidebarLayout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addGroup(panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnLapangan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnUsers, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnBooking, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(34, Short.MAX_VALUE))
+        );
+        panelSidebarLayout.setVerticalGroup(
+            panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSidebarLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addGap(87, 87, 87)
+                .addComponent(btnBooking, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnLapangan, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(349, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(panelSidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 790));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        judul.setFont(new java.awt.Font("Segoe UI Black", 0, 16)); // NOI18N
+        judul.setText("Manajemen Futsal");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(judul, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(938, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(judul)
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 1110, 60));
+
+        panelContent.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        jLabel7.setText("List Booking");
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1), "Filter Lapangan", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Black", 0, 14))); // NOI18N
+
+        jLabel3.setText("Pilih Tanggal");
+
+        jLabel2.setText("Pilih Lapangan");
+
+        btnCekJadwal.setBackground(new java.awt.Color(153, 227, 62));
+        btnCekJadwal.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         btnCekJadwal.setText("Cek Jadwal");
         btnCekJadwal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCekJadwalActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCekJadwal, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 150, -1, -1));
 
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cmbLapangan, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel2)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jdcTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(61, 61, 61))))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addComponent(btnCekJadwal))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jdcTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbLapangan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCekJadwal, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1), "Data Booking", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Black", 0, 14))); // NOI18N
+
+        cmbPelanggan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbPelangganActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Pilih Pelanggan");
+
+        txtJamPilihan.setEditable(false);
+
+        jLabel4.setText("Jam Pilihan");
+
+        txtHargaPilihan.setEditable(false);
+
+        jLabel5.setText("Harga");
+
+        btnSimpanBooking.setBackground(new java.awt.Color(153, 227, 62));
+        btnSimpanBooking.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        btnSimpanBooking.setText("Booking");
+        btnSimpanBooking.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanBookingActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(cmbPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(btnSimpanBooking, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtJamPilihan, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtHargaPilihan, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(jLabel5)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtJamPilihan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtHargaPilihan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSimpanBooking, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tblJadwal.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tblJadwal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -211,106 +435,59 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
         tblJadwal.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jScrollPane1.setViewportView(tblJadwal);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 190, 560, 270));
-
-        btnSimpanBooking.setText("Simpan Booking");
-        btnSimpanBooking.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSimpanBookingActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnSimpanBooking, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 560, 130, 40));
-
-        jLabel4.setText("Jam Pilihan");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 480, -1, -1));
-
-        txtJamPilihan.setEditable(false);
-        jPanel1.add(txtJamPilihan, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 480, 110, -1));
-
-        jLabel5.setText("Harga");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 520, -1, -1));
-
-        txtHargaPilihan.setEditable(false);
-        jPanel1.add(txtHargaPilihan, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 520, 110, -1));
-
-        jMenu1.setText("File");
-
-        menuItemKeluar.setText("Keluar");
-        menuItemKeluar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuItemKeluarActionPerformed(evt);
-            }
-        });
-        jMenu1.add(menuItemKeluar);
-
-        jMenuBar1.add(jMenu1);
-
-        jMenu3.setText("Manajemen");
-
-        menuItemManajemenLapangan.setText("Data Lapangan");
-        menuItemManajemenLapangan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuItemManajemenLapanganActionPerformed(evt);
-            }
-        });
-        jMenu3.add(menuItemManajemenLapangan);
-
-        menuItemManajemenPengguna.setText("Data Pengguna");
-        menuItemManajemenPengguna.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuItemManajemenPenggunaActionPerformed(evt);
-            }
-        });
-        jMenu3.add(menuItemManajemenPengguna);
-
-        jMenuBar1.add(jMenu3);
-
-        jMenu2.setText("Laporan");
-
-        menuItemLaporanBooking.setText("Laporan Booking");
-        menuItemLaporanBooking.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuItemLaporanBookingActionPerformed(evt);
-            }
-        });
-        jMenu2.add(menuItemLaporanBooking);
-
-        jMenuBar1.add(jMenu2);
-
-        setJMenuBar(jMenuBar1);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        javax.swing.GroupLayout panelContentLayout = new javax.swing.GroupLayout(panelContent);
+        panelContent.setLayout(panelContentLayout);
+        panelContentLayout.setHorizontalGroup(
+            panelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelContentLayout.createSequentialGroup()
+                .addGroup(panelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelContentLayout.createSequentialGroup()
+                        .addGap(149, 149, 149)
+                        .addGroup(panelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 658, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelContentLayout.createSequentialGroup()
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(panelContentLayout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jLabel7)))
+                .addContainerGap(213, Short.MAX_VALUE))
+        );
+        panelContentLayout.setVerticalGroup(
+            panelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelContentLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel7)
+                .addGap(11, 11, 11)
+                .addGroup(panelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(212, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+
+        jPanel1.add(panelContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, 1020, 660));
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtTanggalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTanggalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTanggalActionPerformed
-
     private void btnCekJadwalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCekJadwalActionPerformed
         Lapangan lapanganTerpilih = (Lapangan) cmbLapangan.getSelectedItem();
-        String tanggalStr = txtTanggal.getText();
+        java.util.Date tanggalDipilih = jdcTanggal.getDate();
 
-        if (lapanganTerpilih == null || tanggalStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Silakan pilih lapangan dan isi tanggal terlebih dahulu.", "Input Tidak Lengkap", JOptionPane.WARNING_MESSAGE);
+        if (lapanganTerpilih == null || tanggalDipilih == null) {
+            JOptionPane.showMessageDialog(this, "Silakan pilih lapangan dan tanggal terlebih dahulu.", "Input Tidak Lengkap", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String tanggalStr = sdf.format(tanggalDipilih);
+
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date utilDate = sdf.parse(tanggalStr);
             java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
@@ -332,13 +509,21 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
 
         User pelangganTerpilih = (User) cmbPelanggan.getSelectedItem();
         Lapangan lapanganTerpilih = (Lapangan) cmbLapangan.getSelectedItem();
-        String tanggalStr = txtTanggal.getText();
-        String jamMulaiStr = txtJamPilihan.getText().substring(0, 5);
 
+        java.util.Date tanggalDipilih = jdcTanggal.getDate();
+
+        if (tanggalDipilih == null) {
+            JOptionPane.showMessageDialog(this, "Tanggal booking belum dipilih.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String tanggalStr = sdf.format(tanggalDipilih);
+
+        String jamMulaiStr = txtJamPilihan.getText().substring(0, 5);
         int durasi = tblJadwal.getSelectedRows().length;
         double totalHarga = Double.parseDouble(txtHargaPilihan.getText());
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date utilDate = sdf.parse(tanggalStr);
             java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
@@ -379,34 +564,28 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSimpanBookingActionPerformed
 
-    private void menuItemKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemKeluarActionPerformed
-        int confirm = JOptionPane.showConfirmDialog(this,
-                "Anda yakin ingin keluar dari aplikasi?",
-                "Konfirmasi Keluar",
-                JOptionPane.YES_NO_OPTION);
+    private void cmbPelangganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPelangganActionPerformed
+        //
+    }//GEN-LAST:event_cmbPelangganActionPerformed
 
-        if (confirm == JOptionPane.YES_OPTION) {
-            System.exit(0);
-        }
-    }//GEN-LAST:event_menuItemKeluarActionPerformed
+    private void btnBookingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingActionPerformed
+        //
+    }//GEN-LAST:event_btnBookingActionPerformed
 
-    private void menuItemManajemenLapanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemManajemenLapanganActionPerformed
-        FormManajemenLapangan form = new FormManajemenLapangan();
-        form.setLocationRelativeTo(this);
-        form.setVisible(true);
-    }//GEN-LAST:event_menuItemManajemenLapanganActionPerformed
+    private void btnUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersActionPerformed
+        this.dispose();
+        new FormManajemenPengguna().setVisible(true);
+    }//GEN-LAST:event_btnUsersActionPerformed
 
-    private void menuItemManajemenPenggunaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemManajemenPenggunaActionPerformed
-        FormManajemenPengguna form = new FormManajemenPengguna();
-        form.setLocationRelativeTo(this);
-        form.setVisible(true);
-    }//GEN-LAST:event_menuItemManajemenPenggunaActionPerformed
+    private void btnRiwayatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRiwayatActionPerformed
+        this.dispose();
+        new FormLaporanBooking().setVisible(true);
+    }//GEN-LAST:event_btnRiwayatActionPerformed
 
-    private void menuItemLaporanBookingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemLaporanBookingActionPerformed
-        FormLaporanBooking form = new FormLaporanBooking();
-        form.setLocationRelativeTo(this);
-        form.setVisible(true);
-    }//GEN-LAST:event_menuItemLaporanBookingActionPerformed
+    private void btnLapanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLapanganActionPerformed
+        this.dispose();
+        new FormManajemenLapangan().setVisible(true);
+    }//GEN-LAST:event_btnLapanganActionPerformed
 
     /**
      * @param args the command line arguments
@@ -445,8 +624,12 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBooking;
     private javax.swing.JButton btnCekJadwal;
+    private javax.swing.JButton btnLapangan;
+    private javax.swing.JButton btnRiwayat;
     private javax.swing.JButton btnSimpanBooking;
+    private javax.swing.JButton btnUsers;
     private javax.swing.JComboBox<Lapangan> cmbLapangan;
     private javax.swing.JComboBox<User> cmbPelanggan;
     private javax.swing.JLabel jLabel1;
@@ -454,20 +637,21 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JMenuItem menuItemKeluar;
-    private javax.swing.JMenuItem menuItemLaporanBooking;
-    private javax.swing.JMenuItem menuItemManajemenLapangan;
-    private javax.swing.JMenuItem menuItemManajemenPengguna;
+    private com.toedter.calendar.JDateChooser jdcTanggal;
+    public javax.swing.JLabel judul;
+    private javax.swing.JPanel panelContent;
+    private javax.swing.JPanel panelSidebar;
     private javax.swing.JTable tblJadwal;
     private javax.swing.JTextField txtHargaPilihan;
     private javax.swing.JTextField txtJamPilihan;
-    private javax.swing.JTextField txtTanggal;
     // End of variables declaration//GEN-END:variables
 }

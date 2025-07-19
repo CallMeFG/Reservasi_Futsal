@@ -3,6 +3,7 @@ package manajemen.view;
 import manajemen.controller.FutsalController;
 import manajemen.model.User;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,6 +19,8 @@ public class FormManajemenPengguna extends javax.swing.JFrame {
     public FormManajemenPengguna() {
         initComponents();
         loadTabelPengguna();
+        setLocationRelativeTo(null);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
     private void loadTabelPengguna() {
         DefaultTableModel model = (DefaultTableModel) tblPengguna.getModel();
@@ -55,20 +58,174 @@ public class FormManajemenPengguna extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblPengguna = new javax.swing.JTable();
+        panelSidebar = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        btnBooking = new javax.swing.JButton();
+        btnUsers = new javax.swing.JButton();
+        btnLapangan = new javax.swing.JButton();
+        btnRiwayat = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        judul = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         btnTambah = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnHapus = new javax.swing.JButton();
-        btnKembali = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblPengguna = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Manajemen Pengguna (Admin & Pelanggan)");
+        setPreferredSize(new java.awt.Dimension(1310, 740));
         setResizable(false);
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(600, 600));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1310, 740));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1310, 740));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        panelSidebar.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
+        jLabel6.setText("CallmeFutsal");
+
+        btnBooking.setBackground(new java.awt.Color(153, 227, 62));
+        btnBooking.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        btnBooking.setText("Booking");
+        btnBooking.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBookingActionPerformed(evt);
+            }
+        });
+
+        btnUsers.setBackground(new java.awt.Color(153, 227, 62));
+        btnUsers.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        btnUsers.setText("Users");
+        btnUsers.setEnabled(false);
+        btnUsers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsersActionPerformed(evt);
+            }
+        });
+
+        btnLapangan.setBackground(new java.awt.Color(153, 227, 62));
+        btnLapangan.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        btnLapangan.setText("Lapangan");
+        btnLapangan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLapanganActionPerformed(evt);
+            }
+        });
+
+        btnRiwayat.setBackground(new java.awt.Color(153, 227, 62));
+        btnRiwayat.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        btnRiwayat.setText("Riwayat");
+        btnRiwayat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRiwayatActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/manajemen/assets/callmefutsal-ikon.png"))); // NOI18N
+
+        javax.swing.GroupLayout panelSidebarLayout = new javax.swing.GroupLayout(panelSidebar);
+        panelSidebar.setLayout(panelSidebarLayout);
+        panelSidebarLayout.setHorizontalGroup(
+            panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSidebarLayout.createSequentialGroup()
+                .addGroup(panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelSidebarLayout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel8))
+                    .addGroup(panelSidebarLayout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addGroup(panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnLapangan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnUsers, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnBooking, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(34, Short.MAX_VALUE))
+        );
+        panelSidebarLayout.setVerticalGroup(
+            panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSidebarLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addGap(87, 87, 87)
+                .addComponent(btnBooking, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnLapangan, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(349, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(panelSidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 790));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        judul.setFont(new java.awt.Font("Segoe UI Black", 0, 16)); // NOI18N
+        judul.setText("Manajemen Futsal");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(judul, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(938, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(judul)
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 1110, 60));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setMinimumSize(new java.awt.Dimension(970, 680));
+
+        btnTambah.setBackground(new java.awt.Color(153, 227, 62));
+        btnTambah.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        btnTambah.setText("Tambah");
+        btnTambah.setPreferredSize(new java.awt.Dimension(85, 37));
+        btnTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahActionPerformed(evt);
+            }
+        });
+
+        btnEdit.setBackground(new java.awt.Color(153, 227, 62));
+        btnEdit.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        btnEdit.setText("Edit");
+        btnEdit.setPreferredSize(new java.awt.Dimension(85, 37));
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+
+        btnHapus.setBackground(new java.awt.Color(153, 227, 62));
+        btnHapus.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        btnHapus.setText("Hapus");
+        btnHapus.setPreferredSize(new java.awt.Dimension(85, 37));
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
+            }
+        });
+
+        tblPengguna.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tblPengguna.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -82,39 +239,45 @@ public class FormManajemenPengguna extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblPengguna);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, -1, 380));
+        jLabel7.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        jLabel7.setText("List User");
 
-        btnTambah.setText("Tambah");
-        btnTambah.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTambahActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, -1, -1));
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel7)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(54, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 892, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(74, 74, 74))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addGap(1, 1, 1)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                    .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(217, Short.MAX_VALUE))
+        );
 
-        btnEdit.setText("Edit");
-        btnEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 80, -1, -1));
-
-        btnHapus.setText("Hapus");
-        btnHapus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHapusActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 80, -1, -1));
-
-        btnKembali.setText("Kembali");
-        btnKembali.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnKembaliActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 510, -1, -1));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, 1020, 650));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -129,10 +292,6 @@ public class FormManajemenPengguna extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnKembaliActionPerformed
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         FormInputPengguna form = new FormInputPengguna(this, true);
@@ -178,6 +337,26 @@ public class FormManajemenPengguna extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnHapusActionPerformed
 
+    private void btnBookingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookingActionPerformed
+        this.dispose();
+        new FormTransaksiBooking().setVisible(true);
+    }//GEN-LAST:event_btnBookingActionPerformed
+
+    private void btnUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersActionPerformed
+        this.dispose();
+        new FormManajemenPengguna().setVisible(true);
+    }//GEN-LAST:event_btnUsersActionPerformed
+
+    private void btnLapanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLapanganActionPerformed
+        this.dispose();
+        new FormManajemenLapangan().setVisible(true);
+    }//GEN-LAST:event_btnLapanganActionPerformed
+
+    private void btnRiwayatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRiwayatActionPerformed
+        this.dispose();
+        new FormLaporanBooking().setVisible(true);
+    }//GEN-LAST:event_btnRiwayatActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -214,12 +393,22 @@ public class FormManajemenPengguna extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBooking;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnHapus;
-    private javax.swing.JButton btnKembali;
+    private javax.swing.JButton btnLapangan;
+    private javax.swing.JButton btnRiwayat;
     private javax.swing.JButton btnTambah;
+    private javax.swing.JButton btnUsers;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JLabel judul;
+    private javax.swing.JPanel panelSidebar;
     private javax.swing.JTable tblPengguna;
     // End of variables declaration//GEN-END:variables
 }
