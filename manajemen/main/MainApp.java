@@ -7,7 +7,7 @@ import manajemen.view.FormTransaksiBooking;
 public class MainApp {
     public static void main(String[] args) {
         FormLogin formLogin = new FormLogin(null, true); // Buat sebagai dialog modal
-        formLogin.setVisible(true); 
+        formLogin.setVisible(true);
 
         if (formLogin.loggedInUser != null) {
             System.out.println("Login berhasil sebagai: " + formLogin.loggedInUser.getNamaLengkap());

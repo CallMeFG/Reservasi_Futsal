@@ -409,7 +409,7 @@ public class FormManajemenLapangan extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+            public void run() { 
                 new FormManajemenLapangan().setVisible(true);
             }
         });

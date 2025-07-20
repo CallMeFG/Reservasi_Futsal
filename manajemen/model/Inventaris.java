@@ -20,7 +20,7 @@ public class Inventaris {
     public String getJumlah() {
         return String.valueOf(jumlah);
     }
-
+ 
     @Override
     public String toString() {
         return this.namaBrg; 

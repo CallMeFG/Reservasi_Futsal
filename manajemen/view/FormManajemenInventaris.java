@@ -321,8 +321,8 @@ public class FormManajemenInventaris extends javax.swing.JFrame {
         Inventaris inventarisToEdit = new Inventaris(id, nama, jumlah); // Password dikosongkan
 
         FormInputInventaris form = new FormInputInventaris(this, true, inventarisToEdit);
-        form.setVisible(true);
-        loadTabelInventaris(); 
+        form.setVisible(true); 
+        loadTabelInventaris();
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed

@@ -397,7 +397,7 @@ public class FutsalController {
             pstmt.setString(2, inventaris.getJumlah());
             pstmt.setString(3, inventaris.getInventarisId());
             return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) {
+        } catch (SQLException e) { 
             e.printStackTrace();
             return false;
         }

@@ -334,7 +334,7 @@ public class FormManajemenPengguna extends javax.swing.JFrame {
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         int row = tblPengguna.getSelectedRow();
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Silakan pilih baris yang ingin dihapus terlebih dahulu.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Silakan pilih baris yang ingin dihapus terlebih dahulu.", "Peringatan", JOptionPane.WARNING_MESSAGE); 
             return;
         }
 

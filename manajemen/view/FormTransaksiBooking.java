@@ -602,7 +602,7 @@ public class FormTransaksiBooking extends javax.swing.JFrame {
 
     private void btnInventarisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisActionPerformed
         this.dispose();
-        new FormManajemenInventaris().setVisible(true);
+        new FormManajemenInventaris().setVisible(true); 
     }//GEN-LAST:event_btnInventarisActionPerformed
 
     /**
